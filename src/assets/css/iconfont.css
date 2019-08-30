@@ -1,0 +1,55 @@
+@font-face {font-family: 'iconfont';
+    src: url('../fonts/iconfont.eot');
+    src: url('../fonts/iconfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/iconfont.woff') format('woff'),
+    url('../fonts/iconfont.ttf') format('truetype'),
+    url('../fonts/iconfont.svg#iconfont') format('svg');
+}
+
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-right:before {
+  content: "\e642";
+}
+
+.icon-right1:before {
+  content: "\e63c";
+}
+
+.icon-add:before {
+  content: "\e661";
+}
+
+.icon-close:before {
+  content: "\e60d";
+}
+
+.icon-cart:before {
+  content: "\e705";
+}
+
+.icon-good:before {
+  content: "\e62a";
+}
+
+.icon-bad:before {
+  content: "\e683";
+}
+
+.icon-minus:before {
+  content: "\e630";
+}
+
+.icon-back:before {
+  content: "\e62b";
+}
+
+.icon-like:before {
+  content: "\e65d";
+}
