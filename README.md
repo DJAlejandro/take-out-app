@@ -5,5 +5,5 @@
 - [Vue 简单状态管理Store模式下无法 watch 到改变后的数据](https://segmentfault.com/q/1010000019453777/)
 - [Moment.js](http://momentjs.cn/)
 - [moment.js的方法总结](https://www.jianshu.com/p/e5b7c0606a3f)
-- []()
+- [VUE 过滤器](https://vue.docschina.org/v2/guide/filters.html)
 - []()
