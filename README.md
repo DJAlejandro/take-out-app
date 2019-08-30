@@ -1,29 +1,9 @@
-# take-out-app
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- [sticky-footer的三种解决方案](https://www.cnblogs.com/shicongbuct/p/6487122.html)
+- [谷歌模拟器和手机真机适配的坑](https://www.jianshu.com/p/a3cb039633c1)
+- [vue的过渡动画无法正常实现](https://blog.csdn.net/makerbeen/article/details/81324989)
+- [vue.js - 过渡&动画 - 无效情况](https://blog.csdn.net/weixin_34129696/article/details/91383480)
+- [Vue 简单状态管理Store模式下无法 watch 到改变后的数据](https://segmentfault.com/q/1010000019453777/)
+- [Moment.js](http://momentjs.cn/)
+- [moment.js的方法总结](https://www.jianshu.com/p/e5b7c0606a3f)
+- []()
+- []()
