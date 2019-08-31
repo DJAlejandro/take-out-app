@@ -6,20 +6,17 @@
                     <div class="shop-calculate">
                         <div
                             class="calculate-content"
-                            @click="toggleShow1"
-                            :class="{active:this.$store.state.countAll>0}"
+                            @click="toggleShow"
+                            :class="{active:totalCount>0}"
                         >
                             <i class="iconfont icon-cart"></i>
                         </div>
-                        <span
-                            class="count-all"
-                            v-show="this.$store.state.countAll>0"
-                        >{{this.$store.state.countAll}}</span>
+                        <span class="count-all" v-show="totalCount>0">{{totalCount}}</span>
                     </div>
                     <span
                         class="shop-price-all border-right-1px"
-                        :class="{active:this.$store.state.countAll>0}"
-                    >￥{{this.$store.state.priceAll}}</span>
+                        :class="{active:totalCount>0}"
+                    >￥{{totalPrice}}</span>
                     <span class="delivery-price">另需配送费￥{{seller.deliveryPrice}}元</span>
                 </div>
             </div>
@@ -31,8 +28,8 @@
                 >{{cartContent}}</div>
             </div>
             <transition name="move">
-                <div class="detail-wrapper" @click="toggleShow" v-show="this.$store.state.isShow">
-                    <shop-detail :goods="goods" @confirm-show="confirmShow"></shop-detail>
+                <div class="detail-wrapper" v-show="isShow">
+                    <shop-detail :selectFoods="selectFoods" @confirm-show="confirmShow"></shop-detail>
                 </div>
             </transition>
         </div>
@@ -56,7 +53,7 @@
         <transition name="bounce">
             <div class="dialog-alert" v-if="isAlertShow">
                 <h2 class="dialog-alert-title">支付</h2>
-                <div class="dialog-alert-content">您需要支付{{this.$store.state.priceAll}}元</div>
+                <div class="dialog-alert-content">您需要支付{{totalPrice}}元</div>
                 <div class="dialog-alert-btns border-1px" @click="closeAlertDialog">确定</div>
             </div>
         </transition>
@@ -65,9 +62,13 @@
 
 <script type="text/javascript">
 import ShopDetail from "./pages/ShopDetail";
+import { mapState } from "vuex";
 
 export default {
-    props: ["seller", "goods"],
+    props: {
+        seller: Object,
+        selectFoods: Array
+    },
     data() {
         return {
             isActive: false,
@@ -79,23 +80,15 @@ export default {
         ShopDetail
     },
     methods: {
-        toggleShow1() {
-            if (this.$store.state.countAll > 0) {
-                let isShow = !this.$store.state.isShow;
+        toggleShow() {
+            if (this.totalCount > 0) {
+                let isShow = !this.isShow;
                 this.$store.commit("toggleShow", isShow);
             }
         },
         openAlertDialog() {
             if (this.isActive) {
                 this.isAlertShow = true;
-            }
-        },
-        toggleShow() {
-            if (!this.isConfirmShow) {
-                if (this.$store.state.countAll > 0) {
-                    let isShow = !this.$store.state.isShow;
-                    this.$store.commit("toggleShow", isShow);
-                }
             }
         },
         alertShow() {
@@ -106,29 +99,37 @@ export default {
         },
         clearAll(data) {
             if (data) {
-                let temp = this.goods;
-                for (let i = 0; i < temp.length; i++) {
-                    let item = temp[i].foods;
-                    this.goods[i]["calCount"] = 0;
-                    for (let j = 0; j < item.length; j++) {
-                        item[j]["count"] = 0;
-                    }
-                }
-                this.$store.commit("summary", { count: 0, price: 0 });
+                this.selectFoods.forEach(food => {
+                    food.count = 0;
+                });
                 this.$store.commit("toggleShow", false);
             }
             this.isConfirmShow = false;
-            this.$emit("confirm-show", false);
         },
         closeAlertDialog() {
             this.isAlertShow = false;
         }
     },
     computed: {
+        ...mapState(["isShow"]),
+
+        totalPrice() {
+            let total = 0;
+            this.selectFoods.forEach(food => {
+                total += food.price * food.count;
+            });
+            return total;
+        },
+        totalCount() {
+            let count = 0;
+            this.selectFoods.forEach(food => {
+                count += food.count;
+            });
+            return count;
+        },
         cartContent() {
-            let priceAll = this.$store.state.priceAll;
-            let diff = this.seller.minPrice - priceAll;
-            if (priceAll === 0) {
+            let diff = this.seller.minPrice - this.totalPrice;
+            if (this.totalPrice === 0) {
                 this.isActive = false;
                 return `￥${this.seller.minPrice}元起送`;
             } else if (diff > 0) {
@@ -139,6 +140,13 @@ export default {
                 return `结算`;
             }
         }
+    },
+    watch: {
+        totalCount() {
+            if (!this.totalCount) {
+                this.$store.commit("toggleShow", false);
+            }
+        }
     }
 };
 </script>
@@ -146,6 +154,7 @@ export default {
 <style lang="scss">
 @import "~css/mixin.scss";
 @import "~css/base.scss";
+@import "~css/border.scss";
 
 /* 购物车详情页动画 */
 .move-enter,

@@ -29,14 +29,14 @@
                 </div>
             </div>
             <div class="section-block"></div>
-            <rating
+            <v-rating
                 :ratings="ratings"
                 :isActive="isActive"
                 :hideEmpty="hideEmpty"
                 :desc="desc"
                 @empty-comment="toggleEmptyComment"
                 @change-ratings="changeRatings"
-            ></rating>
+            ></v-rating>
             <div class="evaluate-list">
                 <ul>
                     <template v-for="item in ratings">
@@ -84,18 +84,21 @@
 </template>
 
 <script type="text/javascript">
-import Star from "components/star/Star.vue";
+import VStar from "components/star/Star.vue";
 import BScroll from "@better-scroll/core";
-import Rating from "components/Rating.vue";
+import VRating from "components/Rating.vue";
 import moment from "moment";
 const ALL = 2;
 const POSITIVE = 0;
 const NEGATIVE = 1;
 export default {
-    props: ["seller", "ratings"],
+    props: {
+        seller: Object,
+        ratings: Array
+    },
     components: {
-        Rating,
-        vStar: Star
+        VRating,
+        VStar
     },
     data() {
         return {
@@ -110,6 +113,7 @@ export default {
         };
     },
     methods: {
+        /* 每当操作引起DOM结构变化时，一定要调用better-scroll的refresh方法重新计算宽高，保证better-scroll的正确渲染*/
         refresh() {
             this.$nextTick(function() {
                 this.evaluate.refresh();
@@ -159,6 +163,7 @@ export default {
 <style lang="scss" scoped>
 @import "~css/mixin.scss";
 @import "~css/base.scss";
+@import "~css/border.scss";
 
 .evaluate {
     position: absolute;

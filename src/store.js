@@ -4,21 +4,12 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-    countAll:0,
-    priceAll:0,
-    isShow:false
-  },
-  mutations: {
-    summary (state,data) {
-      state.countAll=data.count
-      state.priceAll=data.price
+    state: {
+        isShow: false
     },
-    toggleShow(state,data){
-      state.isShow=data
+    mutations: {
+        toggleShow(state, data) {
+            state.isShow = data
+        }
     }
-  },
-  actions: {
-
-  }
 })

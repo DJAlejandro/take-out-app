@@ -79,9 +79,8 @@
 </template>
 
 <script type="text/javascript">
-import Star from "components/star/Star.vue";
-import Pics from "components/supports/Pics.vue";
-import axios from "axios";
+import vStar from "components/star/Star.vue";
+import vPics from "components/supports/Pics.vue";
 import { isAndroid } from "js/Android.js";
 export default {
     props: {
@@ -90,8 +89,8 @@ export default {
         }
     },
     components: {
-        vStar: Star,
-        vPics: Pics
+        vStar,
+        vPics
     },
     data() {
         return {
@@ -118,6 +117,7 @@ export default {
 <style lang="scss" scoped>
 @import "~css/mixin.scss";
 @import "~css/base.scss";
+@import "~css/border.scss";
 
 .full-screen-enter-active,
 .full-screen-leave-active {

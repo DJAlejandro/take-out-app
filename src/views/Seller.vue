@@ -6,7 +6,7 @@
                     <div class="seller-name">{{seller.name}}</div>
                     <div class="seller-count">
                         <div class="star-wrapper">
-                            <star size="36" :score="seller.score"></star>
+                            <v-star size="36" :score="seller.score"></v-star>
                         </div>
                         <div class="rating-count">({{seller.ratingCount}})</div>
                         <div class="sell-count">月售{{seller.sellCount}}单</div>
@@ -50,7 +50,7 @@
             <div class="seller-list">
                 <ul>
                     <li class="seller-list-item border-1px" v-for="item in seller.supports">
-                        <pics class="seller-list-brand" :index="item.type" indexArr="4"></pics>
+                        <v-pics class="seller-list-brand" :index="item.type" indexArr="4"></v-pics>
                         {{item.description}}
                     </li>
                 </ul>
@@ -77,14 +77,16 @@
 
 <script type="text/javascript">
 import BScroll from "@better-scroll/core";
-import Pics from "components/supports/Pics.vue";
-import Star from "components/star/Star.vue";
+import VPics from "components/supports/Pics.vue";
+import VStar from "components/star/Star.vue";
 
 export default {
-    props: ["seller"],
+    props: {
+        seller: Object
+    },
     components: {
-        Star,
-        Pics
+        VStar,
+        VPics
     },
     data() {
         return {
@@ -98,22 +100,21 @@ export default {
         initPics(data) {
             let width = 126 * data - 6;
             this.$refs.pics.style.width = width + "px";
-        }
-    },
-    mounted() {
-        this.$nextTick(function() {
-            if (this.seller.pics) {
-                this.initPics(this.seller.pics.length);
-            }
-            if (!this.sellerScroll) {
-                this.sellerScroll = new BScroll(this.$refs.sellerScroll, {
-                    click: true
-                });
-            } else {
-                this.sellerScroll.refresh();
-            }
-
+        },
+        _initScroll() {
+            this.$nextTick(function() {
+                if (!this.sellerScroll) {
+                    this.sellerScroll = new BScroll(this.$refs.sellerScroll, {
+                        click: true
+                    });
+                } else {
+                    this.sellerScroll.refresh();
+                }
+            });
+        },
+        _initPics() {
             if (!this.picsScroll) {
+                /* better-srcoll横向滚动 */
                 this.picsScroll = new BScroll(this.$refs.picsScroll, {
                     scrollX: true,
                     eventPassthrough: "vertical"
@@ -121,7 +122,14 @@ export default {
             } else {
                 this.picsScroll.refresh();
             }
-        });
+        }
+    },
+    mounted() {
+        if (this.seller.pics) {
+            this.initPics(this.seller.pics.length);
+        }
+        this._initScroll();
+        this._initPics();
     },
     computed: {
         likeDesc() {
@@ -137,11 +145,12 @@ export default {
 <style lang="scss" scoped>
 @import "~css/mixin.scss";
 @import "~css/base.scss";
+@import "~css/border.scss";
 
 .seller {
     position: absolute;
     width: 100%;
-    top: 178px;
+    top: 189px;
     bottom: 48px;
     overflow: hidden;
     .seller-header {
@@ -157,7 +166,7 @@ export default {
             .seller-count {
                 font-size: 0;
                 margin-top: 8px;
-                margin-bottom: 18px;
+                padding-bottom: 18px;
                 .star-wrapper,
                 .rating-count,
                 .sell-count {
@@ -177,7 +186,7 @@ export default {
                 top: 0;
                 right: 0;
                 .like-iconfont {
-                    width: 40px;
+                    width: 40px; // 设置宽度固定，切换时图标的位置不会改变
                     margin-bottom: 4px;
                     text-align: center;
                     .icon-like {
@@ -251,7 +260,8 @@ export default {
             color: $vblack;
             padding: 16px 12px;
             margin: 0 18px;
-            @include border-top-1px($vborder) font-size: 12px;
+            @include border-top-1px($vborder);
+            font-size: 12px;
             line-height: 16px;
             text-align: left;
             .seller-list-brand {
@@ -291,7 +301,7 @@ export default {
     }
 
     .seller-infos {
-        padding: 18px;
+        padding: 18px 18px 0 18px;
         text-align: left;
         .seller-infos-title {
             margin-bottom: 12px;
@@ -300,7 +310,8 @@ export default {
             color: $vblack;
         }
         .seller-infos-item {
-            @include border-top-1px($vborder) padding: 16px 12px;
+            @include border-top-1px($vborder);
+            padding: 16px 12px;
             line-height: 16px;
             font-size: 12px;
             color: $vblack;

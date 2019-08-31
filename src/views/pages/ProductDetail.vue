@@ -24,8 +24,8 @@
                         <span>{{food.oldPrice}}</span>
                     </span>
                     <span class="price-button">
-                        <price-button v-show="food.count" :food="food" @summary="summary"></price-button>
-                        <span class="zero" v-show="!food.count" @click="summary(true)">加入购物车</span>
+                        <v-button v-show="food.count" :food="food"></v-button>
+                        <span class="zero" v-show="!food.count" @click="add">加入购物车</span>
                     </span>
                 </div>
             </div>
@@ -39,14 +39,14 @@
             <div class="products-detail-rating-info">
                 <h2>商品评价</h2>
             </div>
-            <rating
+            <v-rating
                 :ratings="food.ratings"
                 :isActive="isActive"
                 :hideEmpty="hideEmpty"
                 :desc="desc"
                 @empty-comment="toggleEmptyComment"
                 @change-ratings="changeRatings"
-            ></rating>
+            ></v-rating>
             <div class="ratings-content" v-if="food">
                 <ul v-if="food.ratings">
                     <li
@@ -81,8 +81,8 @@
 </template>
 
 <script type="text/javascript">
-import PriceButton from "components/Button.vue";
-import Rating from "components/Rating.vue";
+import VButton from "components/Button.vue";
+import VRating from "components/Rating.vue";
 import BScroll from "@better-scroll/core";
 import moment from "moment";
 
@@ -90,10 +90,13 @@ const ALL = 2;
 const POSITIVE = 0;
 const NEGATIVE = 1;
 export default {
-    props: ["food", "goods", "isProductDetail"],
+    props: {
+        food: Object,
+        isProductDetail: Boolean
+    },
     components: {
-        PriceButton,
-        Rating
+        VButton,
+        VRating
     },
     data() {
         return {
@@ -107,11 +110,10 @@ export default {
         };
     },
     methods: {
-        summary(data) {
-            if (data === true) {
+        add() {
+            if (!this.food.count) {
                 this.$set(this.food, "count", 1);
             }
-            this.$emit("summary");
         },
         detailClose() {
             this.$emit("detail-close");
@@ -121,6 +123,8 @@ export default {
                 this.productDetail.refresh();
             });
         },
+
+        /* 每当操作引起DOM结构变化时，一定要调用better-scroll的refresh方法重新计算宽高，保证better-scroll的正确渲染*/
         changeRatings(isActive) {
             this.isActive = isActive;
             this.refresh();
@@ -152,6 +156,7 @@ export default {
             });
         }
     },
+    /* moment.js + 过滤器 */
     filters: {
         formatDate(time) {
             return moment(time).format("YYYY-MM-DD HH:mm:ss");
@@ -160,6 +165,7 @@ export default {
     watch: {
         isProductDetail() {
             if (this.isProductDetail) {
+                /* 一定要确保在得到数据且DOM渲染完成的情况下初始化better-scroll */
                 this._initScroll();
             }
         }
@@ -168,8 +174,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../~css/mixin.scss";
 @import "../~css/base.scss";
+@import "~css/border.scss";
 
 .products-detail {
     position: fixed;

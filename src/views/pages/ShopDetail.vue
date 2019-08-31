@@ -5,77 +5,53 @@
             <span class="clear-all" @click="openDeleteDialog">清空</span>
         </div>
         <div class="shop-detail-list" ref="detailList">
-            <ul>
-                <template v-for="good in goods">
+            <div>
+                <ul v-if="selectFoods.length">
                     <li
                         class="shop-detail-item border-1px clearfix"
-                        v-for="(food,index) in good.foods"
-                        v-if="food.count"
+                        v-for="(food,index) in selectFoods"
                     >
                         <div class="name">{{food.name}}</div>
                         <div class="price-button">
-                            <price-button :food="food" @summary="summary"></price-button>
+                            <v-button :food="food"></v-button>
                         </div>
                         <div class="shop-detail-price">
                             <span class="yuan">￥</span>
                             <span class="new">{{food.price*food.count}}</span>
                         </div>
                     </li>
-                </template>
-            </ul>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
 <script type="text/javascript">
-import PriceButton from "components/Button.vue";
+import VButton from "components/Button.vue";
 import BScroll from "@better-scroll/core";
 import { isAndroid } from "js/Android.js";
+import { mapState } from "vuex";
 
 export default {
-    props: ["goods"],
+    props: {
+        selectFoods: Array
+    },
     components: {
-        PriceButton
+        VButton
     },
     methods: {
-        summary() {
-            let temp = this.goods;
-            let count = 0;
-            let price = 0;
-            for (let i = 0; i < temp.length; i++) {
-                let item = temp[i].foods;
-                let calCount = 0;
-                for (let j = 0; j < item.length; j++) {
-                    calCount = calCount + item[j]["count"];
-                    count = item[j]["count"] + count;
-                    price = item[j]["count"] * item[j]["price"] + price;
-                }
-                this.goods[i]["calCount"] = calCount;
-            }
-
-            this.$store.commit("summary", { count, price });
-
-            if (!count) {
-                this.$store.commit("toggleShow", false);
-            }
-            this.$nextTick(function() {
-                this.DetailList.refresh(); //!!!!!!!!!!!
-            });
-        },
         openDeleteDialog() {
             this.$emit("confirm-show");
         },
         initScroll() {
-            if (this.isShow) {
-                this.$nextTick(function() {
-                    if (!this.DetailList) {
-                        this.DetailList = new BScroll(this.$refs.detailList, {
-                            click: true
-                        });
-                    } else {
-                        this.DetailList.refresh();
-                    }
-                });
-            }
+            this.$nextTick(function() {
+                if (!this.DetailList) {
+                    this.DetailList = new BScroll(this.$refs.detailList, {
+                        click: true
+                    });
+                } else {
+                    this.DetailList.refresh();
+                }
+            });
         }
     },
     created() {
@@ -84,27 +60,23 @@ export default {
         }
     },
     computed: {
-        isShow() {
-            return this.$store.state.isShow;
-        }
+        ...mapState(["isShow"])
     },
     watch: {
+        /* 每当操作引起DOM结构变化时，一定要调用better-scroll的refresh方法重新计算宽高，保证better-scroll的正确渲染*/
         isShow() {
             this.initScroll();
         },
-        goods() {
+        selectFoods() {
             this.initScroll();
         }
-    },
-    mounted() {
-        this.initScroll();
     }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "~css/mixin.scss";
 @import "~css/base.scss";
+@import "~css/border.scss";
 
 .shop-detail {
     background-color: rgb(255, 255, 255);

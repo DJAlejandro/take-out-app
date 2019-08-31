@@ -9,15 +9,15 @@
         </div>
         <transition :name="transitionName">
             <keep-alive>
-                <router-view :goods="goods" :ratings="ratings" :seller="seller"></router-view>
+                <router-view :goods="goods" :ratings="ratings" :seller="seller" @summary="summary"></router-view>
             </keep-alive>
         </transition>
 
         <transition name="fade">
-            <div class="blur-bg" v-show="this.$store.state.isShow"></div>
+            <div class="blur-bg" v-show="isShow"></div>
         </transition>
         <div class="shop-cart-wrapper">
-            <shop-cart :seller="seller" :goods="goods"></shop-cart>
+            <shop-cart :seller="seller" :selectFoods="selectFoods"></shop-cart>
         </div>
     </div>
 </template>
@@ -28,6 +28,7 @@ import Header from "./views/Header.vue";
 import ShopCart from "./views/ShopCart.vue";
 
 import axios from "axios";
+import { mapState } from "vuex";
 
 export default {
     components: {
@@ -40,7 +41,8 @@ export default {
             goods: [],
             ratings: [],
             transitionName: "slide-left",
-            routerDepth: ["products", "grade", "seller"]
+            routerDepth: ["products", "grade", "seller"],
+            selectFoods: []
         };
     },
     methods: {
@@ -49,17 +51,7 @@ export default {
                 let data = res.data;
                 this.seller = data.seller;
                 this.ratings = data.ratings;
-                let temp = data.goods;
-                for (let i = 0; i < temp.length; i++) {
-                    let item = temp[i].foods;
-                    temp[i]["calCount"] = 0;
-                    for (let j = 0; j < item.length; j++) {
-                        item[j]["count"] = 0;
-                    }
-                }
-                if (temp.length > 0) {
-                    this.goods = temp;
-                }
+                this.goods = data.goods;
             });
         },
 
@@ -67,6 +59,9 @@ export default {
             window.addEventListener("load", () => {
                 this.$router.push("/");
             });
+        },
+        summary(selectFoods) {
+            this.selectFoods = selectFoods;
         }
     },
     created() {
@@ -89,6 +84,9 @@ export default {
                 this.$refs.line.style.transform = "translate3d(0,0,0)";
             }
         }
+    },
+    computed: {
+        ...mapState(["isShow"])
     }
 };
 </script>

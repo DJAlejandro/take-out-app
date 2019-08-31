@@ -4,7 +4,10 @@
 
 <script>
 export default {
-    props: ["indexArr", "index"],
+    props: {
+        indexArr: String,
+        index: Number
+    },
     data() {
         return {
             type: ["decrease", "discount", "special", "invoice", "guarantee"]

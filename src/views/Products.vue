@@ -10,12 +10,12 @@
                     :key="index"
                 >
                     <div class="menu-list-text border-1px">
-                        <pics
+                        <v-pics
                             v-if="item.type>0"
                             class="menu-list-brand"
                             :index="item.type"
                             indexArr="3"
-                        ></pics>
+                        ></v-pics>
                         {{item.name}}
                         <div class="cal-count" v-show="item.calCount">
                             <span class="cal-count-text">{{item.calCount}}</span>
@@ -57,7 +57,7 @@
                                             class="old-price"
                                         >￥{{food.oldPrice}}</span>
                                         <span class="price-button">
-                                            <price-button :food="food" @summary="Summary"></price-button>
+                                            <v-button :food="food"></v-button>
                                         </span>
                                     </div>
                                 </div>
@@ -70,8 +70,6 @@
         <transition name="slide-fade">
             <product-detail
                 :food="food"
-                :goods="goods"
-                @summary="Summary"
                 @detail-close="ProductDetailClose"
                 v-show="isProductDetail"
                 :isProductDetail="isProductDetail"
@@ -83,17 +81,19 @@
 
 <script type="text/javascript">
 import BScroll from "@better-scroll/core";
-import priceButton from "components/Button.vue";
+import VButton from "components/Button.vue";
 import ProductDetail from "./pages/ProductDetail.vue";
-import Pics from "components/supports/Pics.vue";
+import VPics from "components/supports/Pics.vue";
 import { isAndroid } from "js/Android.js";
 
 export default {
-    props: ["goods"],
+    props: {
+        goods: Array
+    },
     components: {
-        priceButton,
+        VButton,
         ProductDetail,
-        Pics
+        VPics
     },
     data() {
         return {
@@ -105,39 +105,51 @@ export default {
         };
     },
     methods: {
+        /* -------- 左右联动效果 -------- */
         changMenu(index) {
+            console.log(index);
+
             this.activeIndex = index;
             let element = document.getElementsByClassName("products-list-item")[
-                this.activeIndex
+                index
             ];
-            this.scrollRight.scrollToElement(element, 200);
+            this.scrollRight.scrollToElement(element, 200); // better-scroll插件方法
         },
         computedHeight() {
             let element = document.getElementsByClassName("products-list-item");
             let initHeight = 0;
             let arr = [];
             for (let i = 0; i < element.length; i++) {
-                initHeight += element[i].clientHeight;
+                initHeight += element[i].clientHeight; //clientHeight获得元素高度
                 arr.push(initHeight);
             }
             this.computedHeightArr = arr;
         },
-        //   selectFoods() {
-        //     let foods = [];
-        //     this.goods.forEach((good) => {
-        //       good.foods.forEach((food) => {
-        //         if (food.count) {
-        //           foods.push(food);
-        //         }
-        //       });
-        //     });
-        //     return foods;
-        //   },
+        changeIndex(scrollTop) {
+            for (var i = 0; i <= this.computedHeightArr.length - 1; i++) {
+                if (scrollTop < this.computedHeightArr[0]) {
+                    this.activeIndex = 0;
+                } else if (
+                    scrollTop >
+                    this.computedHeightArr[this.computedHeightArr.length - 1]
+                ) {
+                    this.activeIndex = this.computedHeightArr.length - 1;
+                } else if (
+                    this.computedHeightArr[i] < scrollTop &&
+                    this.computedHeightArr[i + 1] > scrollTop
+                ) {
+                    this.activeIndex = i + 1;
+                }
+            }
+        },
+
         initScroll() {
             if (!this.scrollLeft) {
                 this.scrollLeft = new BScroll(this.$refs.menu, {
                     click: true
                 });
+            } else {
+                this.scrollLeft.refresh();
             }
             if (!this.scrollRight) {
                 this.scrollRight = new BScroll(this.$refs.wrapper, {
@@ -146,55 +158,22 @@ export default {
                 });
                 // probeType:如果没有设置该值，其默认值为 0，即不派发 scroll 事件。
                 this.scrollRight.on("scroll", pos => {
+                    console.log(11111111);
+
                     let scrollTop = 0;
                     scrollTop = Math.abs(Math.round(pos.y));
-
-                    for (
-                        var i = 0;
-                        i <= this.computedHeightArr.length - 1;
-                        i++
-                    ) {
-                        if (scrollTop < this.computedHeightArr[0]) {
-                            this.activeIndex = 0;
-                        } else if (
-                            scrollTop >
-                            this.computedHeightArr[
-                                this.computedHeightArr.length - 1
-                            ]
-                        ) {
-                            this.activeIndex =
-                                this.computedHeightArr.length - 1;
-                        } else if (
-                            this.computedHeightArr[i] < scrollTop &&
-                            this.computedHeightArr[i + 1] > scrollTop
-                        ) {
-                            this.activeIndex = i + 1;
-                        }
+                    if (this.timer) {
+                        clearTimeout(this.timer);
                     }
+                    this.timer = setTimeout(() => {
+                        this.changeIndex(scrollTop);
+                    }, 16);
                 });
+            } else {
+                this.scrollRight.refresh();
             }
         },
-        Summary() {
-            let temp = this.goods;
-            let count = 0;
-            let price = 0;
-            for (let i = 0; i < temp.length; i++) {
-                let item = temp[i].foods;
-                let calCount = 0;
-                for (let j = 0; j < item.length; j++) {
-                    calCount = calCount + item[j]["count"];
-                    count = item[j]["count"] + count;
-                    price = item[j]["count"] * item[j]["price"] + price;
-                }
-                this.goods[i]["calCount"] = calCount;
-            }
-
-            this.$store.commit("summary", { count, price });
-
-            if (!count) {
-                this.$store.commit("toggleShow", false);
-            }
-        },
+        /* -------- 左右联动效果 -------- */
 
         ProductDetailOpen(data) {
             this.isProductDetail = true;
@@ -202,6 +181,20 @@ export default {
         },
         ProductDetailClose() {
             this.isProductDetail = false;
+        }
+    },
+    computed: {
+        /* 利用computed特性，和VButton组件组成数据驱动的核心 */
+        selectFoods() {
+            let foods = [];
+            this.goods.forEach(good => {
+                good.foods.forEach(food => {
+                    if (food.count) {
+                        foods.push(food);
+                    }
+                });
+            });
+            return foods;
         }
     },
     created() {
@@ -215,6 +208,11 @@ export default {
                 this.computedHeight();
                 this.initScroll();
             });
+        },
+
+        /* 利用computed特性，和VButton组件组成数据驱动的核心 */
+        selectFoods() {
+            this.$emit("summary", this.selectFoods);
         }
     }
 };
@@ -224,8 +222,8 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "~css/mixin.scss";
 @import "~css/base.scss";
+@import "~css/border.scss";
 
 .slide-fade-enter-active,
 .slide-fade-leave-active {

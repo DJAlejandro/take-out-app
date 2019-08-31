@@ -34,7 +34,12 @@ const ALL = 2;
 const POSITIVE = 0;
 const NEGATIVE = 1;
 export default {
-    props: ["ratings", "desc", "isActive", "hideEmpty"],
+    props: {
+        isActive: Number,
+        hideEmpty: Boolean,
+        desc: Object,
+        ratings: Array
+    },
     data() {
         return {
             ALL,
@@ -51,6 +56,7 @@ export default {
         }
     },
     computed: {
+        /* 将非业务组件的逻辑都集中到子组件内部 */
         positives() {
             return this.ratings.filter(rating => {
                 return rating.rateType === POSITIVE;
@@ -66,8 +72,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~css/mixin.scss";
 @import "~css/base.scss";
+@import "~css/border.scss";
 
 .ratings {
     text-align: left;

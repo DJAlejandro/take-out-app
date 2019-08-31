@@ -11,7 +11,10 @@
 
 <script type="text/javascript">
 export default {
-    props: ["score", "size"],
+    props: {
+        size: String,
+        score: Number
+    },
     data() {
         return {
             starClass: []
