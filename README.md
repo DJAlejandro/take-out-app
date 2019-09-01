@@ -294,5 +294,27 @@ div的css优先级远大于动画中css属性的优先级,加上!important后，
 - [sticky-footer的三种解决方案](https://www.cnblogs.com/shicongbuct/p/6487122.html)
 
 
+## 浮动实现经典三列布局
+
+
+```
+  <div class="left">定宽</div>
+  <div class="right">定宽</div>
+  <div class="middle">自适应</div>
+```
+
+```
+.left{
+    float: left;    
+
+}
+.right{
+    float: right; //html结构中right要在middle块前
+}
+.middle{
+    overflow: hidden; // 触发BFC,让.middle元素像flex:1 一样撑满改行
+}
+```
+
 - [谷歌模拟器和手机真机适配的坑](https://www.jianshu.com/p/a3cb039633c1)
 
