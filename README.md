@@ -312,9 +312,38 @@ div的css优先级远大于动画中css属性的优先级,加上!important后，
     float: right; //html结构中right要在middle块前
 }
 .middle{
-    overflow: hidden; // 触发BFC,让.middle元素像flex:1 一样撑满改行
+    // overflow: hidden; // 触发BFC,让.middle元素像flex:1 一样撑满改行
 }
 ```
 
-- [谷歌模拟器和手机真机适配的坑](https://www.jianshu.com/p/a3cb039633c1)
+## 多行文字垂直居中
 
+
+```
+<div class="middle-box">
+    <div class="middle-inner">
+       Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui eum magni cupiditate enim voluptatum numquam, voluptates, dolores, ipsam repudiandae autem hic aut laudantium alias excepturi distinctio temporibus. Error, rerum vel.
+    </div>
+</div>
+```
+
+```
+    .middle-box{
+        display: table; /*重点*/
+    }
+    /*重点：table-cell布局*/
+    .middle-inner{
+        display: table-cell;
+        vertical-align:middle;
+    }
+ ```
+ 
+ 
+ - [纯CSS实现多行文字垂直居中几种方法解析](https://www.cnblogs.com/goloving/p/7657544.html)
+ 
+ 
+ 
+ 
+ 
+ 
+ - [谷歌模拟器和手机真机适配的坑](https://www.jianshu.com/p/a3cb039633c1)
