@@ -245,10 +245,54 @@ export default {
  
 
 
+## 过渡动画
 
+
+div的css优先级远大于动画中css属性的优先级,加上!important后，过渡才会生
+
+```
+// ShopCart.vue
+<template>
+    <transition name="move">
+        <div class="detail-wrapper" v-show="isAllShow">
+            <shop-detail
+                :selectFoods="selectFoods"
+                :isAllShow="isAllShow"
+                @confirm-show="confirmShow"
+            ></shop-detail>
+        </div>
+    </transition>
+</template>
+
+
+<style lang="scss">
+.move-enter,
+.move-leave-to {
+    transform: translateY(0) !important; //div的css优先级远大于动画中css属性的优先级,加上!important后，过渡才会生效
+}
+.move-enter-active,
+.move-leave-active {
+    transition: all 1s ease;
+}
+
+.detail-wrapper {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transform: translateY(-100%); //div的css优先级远大于动画中css属性的优先级
+}
+</style>
+```
+
+- [vue.js - 过渡&动画 - 无效情况](https://blog.csdn.net/weixin_34129696/article/details/91383480)
+
+
+## sticky-footer布局
 
 - [sticky-footer的三种解决方案](https://www.cnblogs.com/shicongbuct/p/6487122.html)
+
+
 - [谷歌模拟器和手机真机适配的坑](https://www.jianshu.com/p/a3cb039633c1)
-- [vue的过渡动画无法正常实现](https://blog.csdn.net/makerbeen/article/details/81324989)
-- [vue.js - 过渡&动画 - 无效情况](https://blog.csdn.net/weixin_34129696/article/details/91383480)
 
