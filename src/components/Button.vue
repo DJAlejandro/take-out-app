@@ -28,12 +28,10 @@ export default {
             } else {
                 this.food.count++;
             }
-            this.$emit("summary");
         },
         minus(event) {
             if (this.food.count > 0) {
                 this.food.count--;
-                this.$emit("summary");
             }
         }
     }

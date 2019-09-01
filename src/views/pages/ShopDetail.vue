@@ -8,7 +8,7 @@
             <div>
                 <ul v-if="selectFoods.length">
                     <li
-                        class="shop-detail-item border-1px clearfix"
+                        class="shop-detail-item border-horizontal-1px clearfix"
                         v-for="(food,index) in selectFoods"
                     >
                         <div class="name">{{food.name}}</div>
@@ -29,11 +29,11 @@
 import VButton from "components/Button.vue";
 import BScroll from "@better-scroll/core";
 import { isAndroid } from "js/Android.js";
-import { mapState } from "vuex";
 
 export default {
     props: {
-        selectFoods: Array
+        selectFoods: Array,
+        isAllShow: Boolean
     },
     components: {
         VButton
@@ -59,12 +59,9 @@ export default {
             this.AndroidPx = true;
         }
     },
-    computed: {
-        ...mapState(["isShow"])
-    },
     watch: {
         /* 每当操作引起DOM结构变化时，一定要调用better-scroll的refresh方法重新计算宽高，保证better-scroll的正确渲染*/
-        isShow() {
+        isAllShow() {
             this.initScroll();
         },
         selectFoods() {

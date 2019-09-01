@@ -9,7 +9,7 @@
                     @click="changMenu(index)"
                     :key="index"
                 >
-                    <div class="menu-list-text border-1px">
+                    <div class="menu-list-text border-horizontal-1px">
                         <v-pics
                             v-if="item.type>0"
                             class="menu-list-brand"
@@ -31,7 +31,7 @@
                     <div class="products-content">
                         <ul>
                             <li
-                                class="products-content-item border-1px"
+                                class="products-content-item border-horizontal-1px"
                                 v-for="(food,index) in good.foods"
                                 :key="index"
                             >
@@ -101,19 +101,18 @@ export default {
             computedHeightArr: [],
             isProductDetail: false,
             food: {},
-            AndroidPx: false
+            AndroidPx: false,
+            scrollY: 0
         };
     },
     methods: {
         /* -------- 左右联动效果 -------- */
         changMenu(index) {
-            console.log(index);
-
             this.activeIndex = index;
             let element = document.getElementsByClassName("products-list-item")[
                 index
             ];
-            this.scrollRight.scrollToElement(element, 200); // better-scroll插件方法
+            this.scrollRight.scrollToElement(element); // better-scroll插件方法
         },
         computedHeight() {
             let element = document.getElementsByClassName("products-list-item");
@@ -125,18 +124,18 @@ export default {
             }
             this.computedHeightArr = arr;
         },
-        changeIndex(scrollTop) {
+        changeIndex() {
             for (var i = 0; i <= this.computedHeightArr.length - 1; i++) {
-                if (scrollTop < this.computedHeightArr[0]) {
+                if (this.scrollY < this.computedHeightArr[0]) {
                     this.activeIndex = 0;
                 } else if (
-                    scrollTop >
+                    this.scrollY >
                     this.computedHeightArr[this.computedHeightArr.length - 1]
                 ) {
                     this.activeIndex = this.computedHeightArr.length - 1;
                 } else if (
-                    this.computedHeightArr[i] < scrollTop &&
-                    this.computedHeightArr[i + 1] > scrollTop
+                    this.computedHeightArr[i] < this.scrollY &&
+                    this.computedHeightArr[i + 1] > this.scrollY
                 ) {
                     this.activeIndex = i + 1;
                 }
@@ -158,15 +157,12 @@ export default {
                 });
                 // probeType:如果没有设置该值，其默认值为 0，即不派发 scroll 事件。
                 this.scrollRight.on("scroll", pos => {
-                    console.log(11111111);
-
-                    let scrollTop = 0;
-                    scrollTop = Math.abs(Math.round(pos.y));
+                    this.scrollY = Math.abs(Math.round(pos.y));
                     if (this.timer) {
                         clearTimeout(this.timer);
                     }
                     this.timer = setTimeout(() => {
-                        this.changeIndex(scrollTop);
+                        this.changeIndex();
                     }, 16);
                 });
             } else {
@@ -184,7 +180,7 @@ export default {
         }
     },
     computed: {
-        /* 利用computed特性，和VButton组件组成数据驱动的核心 */
+        /* 利用computed特性，根据count属性的变化响应式更新选择列表selectFoods。将该数据作为动态属性传递给ShopCart组件 */
         selectFoods() {
             let foods = [];
             this.goods.forEach(good => {

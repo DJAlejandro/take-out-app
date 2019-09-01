@@ -2,7 +2,7 @@
     <div class="evaluate" ref="evaluate">
         <div>
             <div class="evaluate-header">
-                <div class="evaluate-rank-rate border-right-1px">
+                <div class="evaluate-rank-rate border-vertical-1px">
                     <h2 class="rank-rate-score">{{seller.score}}</h2>
                     <p class="rank-rate-text">综合评分</p>
                     <p class="rank-rate-desc">高于周边商家{{seller.rankRate}}%</p>
@@ -40,7 +40,7 @@
             <div class="evaluate-list">
                 <ul>
                     <template v-for="item in ratings">
-                        <li class="evaluate-list-item border-1px" v-show="showItem(item)">
+                        <li class="evaluate-list-item border-horizontal-1px" v-show="showItem(item)">
                             <div class="evaluate-list-img">
                                 <img :src="item.avatar" />
                             </div>

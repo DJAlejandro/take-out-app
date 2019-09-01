@@ -1,6 +1,6 @@
 <template>
     <div class="ratings" v-show="ratings">
-        <div class="ratings-header border-1px">
+        <div class="ratings-header border-horizontal-1px">
             <div class="ratings-all" @click="changeRatings(ALL)" :class="{active:isActive===ALL}">
                 <span class="text">{{desc.all}}</span>
                 <span class="num" v-if="ratings">{{ratings.length}}</span>

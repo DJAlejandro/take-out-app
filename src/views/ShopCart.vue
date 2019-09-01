@@ -14,7 +14,7 @@
                         <span class="count-all" v-show="totalCount>0">{{totalCount}}</span>
                     </div>
                     <span
-                        class="shop-price-all border-right-1px"
+                        class="shop-price-all border-vertical-1px"
                         :class="{active:totalCount>0}"
                     >￥{{totalPrice}}</span>
                     <span class="delivery-price">另需配送费￥{{seller.deliveryPrice}}元</span>
@@ -28,8 +28,12 @@
                 >{{cartContent}}</div>
             </div>
             <transition name="move">
-                <div class="detail-wrapper" v-show="isShow">
-                    <shop-detail :selectFoods="selectFoods" @confirm-show="confirmShow"></shop-detail>
+                <div class="detail-wrapper" v-show="isAllShow">
+                    <shop-detail
+                        :selectFoods="selectFoods"
+                        :isAllShow="isAllShow"
+                        @confirm-show="confirmShow"
+                    ></shop-detail>
                 </div>
             </transition>
         </div>
@@ -41,7 +45,7 @@
         <transition name="bounce">
             <div class="dialog-confirm" v-if="isConfirmShow">
                 <div class="dialog-confirm-title">清空购物车？</div>
-                <div class="dialog-confirm-btns border-1px">
+                <div class="dialog-confirm-btns border-horizontal-1px">
                     <div class="dialog-confirm-btns-item" @click="clearAll(false)">取消</div>
                     <div
                         class="dialog-confirm-btns-item ok border-left-1px"
@@ -54,7 +58,7 @@
             <div class="dialog-alert" v-if="isAlertShow">
                 <h2 class="dialog-alert-title">支付</h2>
                 <div class="dialog-alert-content">您需要支付{{totalPrice}}元</div>
-                <div class="dialog-alert-btns border-1px" @click="closeAlertDialog">确定</div>
+                <div class="dialog-alert-btns border-horizontal-1px" @click="closeAlertDialog">确定</div>
             </div>
         </transition>
     </div>
@@ -62,12 +66,12 @@
 
 <script type="text/javascript">
 import ShopDetail from "./pages/ShopDetail";
-import { mapState } from "vuex";
 
 export default {
     props: {
         seller: Object,
-        selectFoods: Array
+        selectFoods: Array,
+        isAllShow: Boolean
     },
     data() {
         return {
@@ -82,8 +86,7 @@ export default {
     methods: {
         toggleShow() {
             if (this.totalCount > 0) {
-                let isShow = !this.isShow;
-                this.$store.commit("toggleShow", isShow);
+                this.$emit("toggle-show");
             }
         },
         openAlertDialog() {
@@ -102,7 +105,6 @@ export default {
                 this.selectFoods.forEach(food => {
                     food.count = 0;
                 });
-                this.$store.commit("toggleShow", false);
             }
             this.isConfirmShow = false;
         },
@@ -111,8 +113,6 @@ export default {
         }
     },
     computed: {
-        ...mapState(["isShow"]),
-
         totalPrice() {
             let total = 0;
             this.selectFoods.forEach(food => {
@@ -144,14 +144,14 @@ export default {
     watch: {
         totalCount() {
             if (!this.totalCount) {
-                this.$store.commit("toggleShow", false);
+                this.$emit("toggle-show", true);
             }
         }
     }
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "~css/mixin.scss";
 @import "~css/base.scss";
 @import "~css/border.scss";
@@ -159,9 +159,7 @@ export default {
 /* 购物车详情页动画 */
 .move-enter,
 .move-leave-to {
-    transform: translate3d(
-        0,
-        0,
+    transform: translateY(
         0
     ) !important; //div的css优先级远大于动画中css属性的优先级,加上!important后，过渡才会生效
 }
@@ -272,11 +270,7 @@ export default {
     top: 0;
     left: 0;
     z-index: -1;
-    transform: translate3d(
-        0,
-        -100%,
-        0
-    ); //div的css优先级远大于动画中css属性的优先级
+    transform: translateY(-100%); //div的css优先级远大于动画中css属性的优先级
 }
 
 .bounce-enter-active,

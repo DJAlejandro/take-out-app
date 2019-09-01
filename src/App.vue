@@ -14,10 +14,15 @@
         </transition>
 
         <transition name="fade">
-            <div class="blur-bg" v-show="isShow"></div>
+            <div class="blur-bg" v-show="isAllShow"></div>
         </transition>
         <div class="shop-cart-wrapper">
-            <shop-cart :seller="seller" :selectFoods="selectFoods"></shop-cart>
+            <shop-cart
+                :seller="seller"
+                :selectFoods="selectFoods"
+                :isAllShow="isAllShow"
+                @toggle-show="toggleShow"
+            ></shop-cart>
         </div>
     </div>
 </template>
@@ -28,7 +33,6 @@ import Header from "./views/Header.vue";
 import ShopCart from "./views/ShopCart.vue";
 
 import axios from "axios";
-import { mapState } from "vuex";
 
 export default {
     components: {
@@ -42,7 +46,8 @@ export default {
             ratings: [],
             transitionName: "slide-left",
             routerDepth: ["products", "grade", "seller"],
-            selectFoods: []
+            selectFoods: [],
+            isAllShow: false
         };
     },
     methods: {
@@ -62,6 +67,13 @@ export default {
         },
         summary(selectFoods) {
             this.selectFoods = selectFoods;
+        },
+        toggleShow(flag) {
+            if (flag) {
+                this.isAllShow = false;
+            } else {
+                this.isAllShow = !this.isAllShow;
+            }
         }
     },
     created() {
@@ -84,14 +96,11 @@ export default {
                 this.$refs.line.style.transform = "translate3d(0,0,0)";
             }
         }
-    },
-    computed: {
-        ...mapState(["isShow"])
     }
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "~css/iconfont.css";
 @import "~css/mixin.scss";
 @import "~css/base.scss";

@@ -2,7 +2,7 @@
     <div class="seller" ref="sellerScroll">
         <div>
             <div class="seller-header">
-                <div class="seller-header-content border-1px">
+                <div class="seller-header-content border-horizontal-1px">
                     <div class="seller-name">{{seller.name}}</div>
                     <div class="seller-count">
                         <div class="star-wrapper">
@@ -19,14 +19,14 @@
                     </div>
                 </div>
                 <div class="seller-header-info">
-                    <div class="header-info-item border-right-1px">
+                    <div class="header-info-item border-vertical-1px">
                         <h4 class="seller-header-title">起送价</h4>
                         <h2 class="seller-header-desc">
                             {{seller.minPrice}}
                             <span class="seller-unit">元</span>
                         </h2>
                     </div>
-                    <div class="header-info-item border-right-1px">
+                    <div class="header-info-item border-vertical-1px">
                         <h4 class="seller-header-title">商家配送</h4>
                         <h2 class="seller-header-desc">
                             {{seller.deliveryPrice}}
@@ -49,7 +49,10 @@
             </div>
             <div class="seller-list">
                 <ul>
-                    <li class="seller-list-item border-1px" v-for="item in seller.supports">
+                    <li
+                        class="seller-list-item border-horizontal-1px"
+                        v-for="item in seller.supports"
+                    >
                         <v-pics class="seller-list-brand" :index="item.type" indexArr="4"></v-pics>
                         {{item.description}}
                     </li>
@@ -69,7 +72,10 @@
             <div class="section-block"></div>
             <div class="seller-infos">
                 <h2 class="seller-infos-title">商家信息</h2>
-                <div v-for="item in seller.infos" class="seller-infos-item border-1px">{{item}}</div>
+                <div
+                    v-for="item in seller.infos"
+                    class="seller-infos-item border-horizontal-1px"
+                >{{item}}</div>
             </div>
         </div>
     </div>

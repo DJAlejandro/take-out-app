@@ -51,7 +51,7 @@
                 <ul v-if="food.ratings">
                     <li
                         v-for="item in food.ratings"
-                        class="ratings-content-item border-1px"
+                        class="ratings-content-item border-horizontal-1px"
                         v-if="showItem(item)"
                     >
                         <div class="ratings-title">
@@ -124,7 +124,7 @@ export default {
             });
         },
 
-        /* 每当操作引起DOM结构变化时，一定要调用better-scroll的refresh方法重新计算宽高，保证better-scroll的正确渲染*/
+        /* 当一个组件内使用了better-scroll时，每当操作引起该组件DOM的结构变化时，一定要调用better-scroll的refresh方法重新计算宽高，保证better-scroll的正确渲染*/
         changeRatings(isActive) {
             this.isActive = isActive;
             this.refresh();
