@@ -117,15 +117,15 @@ export default {
 
 <script type="text/javascript">
 
-import moment from "moment";
+import { format } from 'date-fns'
 export default {
     ...
     methods: {
     ...
-    /* moment.js + 过滤器 */
+    /* date-fns + 过滤器 */
     filters: {
         formatDate(time) {
-            return moment(time).format("YYYY-MM-DD HH:mm:ss");
+            return format(time, 'yyyy-MM-dd HH:mm:ss')
         }
     }
     ...
@@ -136,8 +136,8 @@ export default {
 
 
 
-- [Moment.js](http://momentjs.cn/)
-- [moment.js的方法总结](https://www.jianshu.com/p/e5b7c0606a3f)
+- [date-fns](https://date-fns.org/)
+- [【译】你可能不需要Moment.js](https://www.codercto.com/a/26807.html)
 - [VUE 过滤器](https://vue.docschina.org/v2/guide/filters.html)
 
 
