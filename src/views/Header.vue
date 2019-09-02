@@ -83,6 +83,7 @@ import vStar from "components/star/Star.vue";
 import vPics from "components/supports/Pics.vue";
 import { isAndroid } from "js/Android.js";
 export default {
+    name: "Header",
     props: {
         seller: {
             type: Object

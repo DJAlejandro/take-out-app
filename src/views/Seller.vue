@@ -87,6 +87,7 @@ import VPics from "components/supports/Pics.vue";
 import VStar from "components/star/Star.vue";
 
 export default {
+    name: "Seller",
     props: {
         seller: Object
     },
@@ -102,6 +103,7 @@ export default {
     methods: {
         toggleActive() {
             this.isActive = !this.isActive;
+            localStorage.setItem("like", this.isActive);
         },
         initPics(data) {
             let width = 126 * data - 6;
@@ -131,6 +133,13 @@ export default {
         }
     },
     mounted() {
+        if (localStorage.getItem("like")) {
+            if (localStorage.getItem("like") === "true") {
+                this.isActive = true;
+            } else {
+                this.isActive = false;
+            }
+        }
         if (this.seller.pics) {
             this.initPics(this.seller.pics.length);
         }

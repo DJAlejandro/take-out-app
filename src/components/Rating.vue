@@ -34,6 +34,7 @@ const ALL = 2;
 const POSITIVE = 0;
 const NEGATIVE = 1;
 export default {
+    name: "Rating",
     props: {
         isActive: Number,
         hideEmpty: Boolean,

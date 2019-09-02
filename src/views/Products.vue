@@ -87,6 +87,7 @@ import VPics from "components/supports/Pics.vue";
 import { isAndroid } from "js/Android.js";
 
 export default {
+    name:'Product',
     props: {
         goods: Array
     },

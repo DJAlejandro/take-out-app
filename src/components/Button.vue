@@ -17,6 +17,7 @@
 <script>
 /* 此组件为操作数据的最小和核心单位，因为组件之间的相互独立的，所以在初始化goods的时候，不要通过遍历的方式在其中添加count属性，而是通过组件独立的特性来判断传入的food是否有count属性，然后在此组件中初始化count属性。并且所有组件的数据的更新都靠此组件count的数据变化来驱动 */
 export default {
+    name: "Button",
     props: {
         food: Object
     },

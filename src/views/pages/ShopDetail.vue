@@ -31,6 +31,7 @@ import BScroll from "@better-scroll/core";
 import { isAndroid } from "js/Android.js";
 
 export default {
+    name:'ShopDetail',
     props: {
         selectFoods: Array,
         isAllShow: Boolean

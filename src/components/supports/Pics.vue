@@ -4,6 +4,7 @@
 
 <script>
 export default {
+    name: "Pics",
     props: {
         indexArr: String,
         index: Number

@@ -68,6 +68,7 @@
 import ShopDetail from "./pages/ShopDetail";
 
 export default {
+    name: "ShopCart",
     props: {
         seller: Object,
         selectFoods: Array,

@@ -40,7 +40,10 @@
             <div class="evaluate-list">
                 <ul>
                     <template v-for="item in ratings">
-                        <li class="evaluate-list-item border-horizontal-1px" v-show="showItem(item)">
+                        <li
+                            class="evaluate-list-item border-horizontal-1px"
+                            v-show="showItem(item)"
+                        >
                             <div class="evaluate-list-img">
                                 <img :src="item.avatar" />
                             </div>
@@ -87,11 +90,13 @@
 import VStar from "components/star/Star.vue";
 import BScroll from "@better-scroll/core";
 import VRating from "components/Rating.vue";
-import moment from "moment";
+import { format } from "date-fns";
+
 const ALL = 2;
 const POSITIVE = 0;
 const NEGATIVE = 1;
 export default {
+    name: "Grade",
     props: {
         seller: Object,
         ratings: Array
@@ -143,7 +148,7 @@ export default {
     },
     filters: {
         formatDate(time) {
-            return moment(time).format("YYYY-MM-DD HH:mm:ss");
+            return format(time, "yyyy-MM-dd HH:mm:ss");
         }
     },
     mounted() {

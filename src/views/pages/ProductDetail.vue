@@ -84,12 +84,13 @@
 import VButton from "components/Button.vue";
 import VRating from "components/Rating.vue";
 import BScroll from "@better-scroll/core";
-import moment from "moment";
+import { format } from "date-fns";
 
 const ALL = 2;
 const POSITIVE = 0;
 const NEGATIVE = 1;
 export default {
+    name: "ProductDetail",
     props: {
         food: Object,
         isProductDetail: Boolean
@@ -159,7 +160,7 @@ export default {
     /* moment.js + 过滤器 */
     filters: {
         formatDate(time) {
-            return moment(time).format("YYYY-MM-DD HH:mm:ss");
+            return format(time, "yyyy-MM-dd HH:mm:ss");
         }
     },
     watch: {
