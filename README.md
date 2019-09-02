@@ -137,7 +137,8 @@ export default {
 
 
 - [date-fns](https://date-fns.org/)
-- [【译】你可能不需要Moment.js](https://www.codercto.com/a/26807.html)
+- [date-fns的使用](http://www.luyixian.cn/news_show_71788.aspx)
+- [【译】你可能不需要Moment.js](https://juejin.im/post/5b9f4df66fb9a05d2e1b8f02)
 - [VUE 过滤器](https://vue.docschina.org/v2/guide/filters.html)
 
 
