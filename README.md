@@ -343,7 +343,7 @@ div的css优先级远大于动画中css属性的优先级,加上!important后，
  - [纯CSS实现多行文字垂直居中几种方法解析](https://www.cnblogs.com/goloving/p/7657544.html)
  
  
- ## Vue Router过渡动效
+ ## [Vue Router过渡动效](https://router.vuejs.org/zh/guide/advanced/transitions.html)
  
  
  ```
