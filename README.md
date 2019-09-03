@@ -343,7 +343,106 @@ div的css优先级远大于动画中css属性的优先级,加上!important后，
  - [纯CSS实现多行文字垂直居中几种方法解析](https://www.cnblogs.com/goloving/p/7657544.html)
  
  
+ ## Vue Router过渡动效
  
+ 
+ ```
+ <template>
+    <div id="app">
+        <div class="nav-tab" ref="tab">
+            <router-link class="tab-item" active-class="active" to="/">商品</router-link>
+            <router-link class="tab-item" active-class="active" to="/grade">评价</router-link>
+            <router-link class="tab-item" active-class="active" to="/seller">商家</router-link>
+            <div class="nav-line" ref="line"></div>
+        </div>
+        <transition :name="transitionName">
+            <keep-alive>
+                <router-view></router-view>
+            </keep-alive>
+        </transition>
+
+
+    </div>
+</template>
+
+
+<script type="text/javascript">
+export default {
+    data() {
+        return {    
+            transitionName: "slide-left",
+            routerDepth: ["products", "grade", "seller"],
+
+        };
+    },
+    ...
+    watch: {
+        $route(to, from) {
+            let toDepth = to.path.split("/")[1];
+            let fromDepth = from.path.split("/")[1];
+            let toIndex = this.routerDepth.indexOf(toDepth);
+            let fromIndex = this.routerDepth.indexOf(fromDepth);
+            this.transitionName =
+                toIndex < fromIndex ? "slide-right" : "slide-left";
+            if (toIndex === 1) {
+                this.$refs.line.style.transform = "translate3d(100%,0,0)";
+            } else if (toIndex === 2) {
+                this.$refs.line.style.transform = "translate3d(200%,0,0)";
+            } else {
+                this.$refs.line.style.transform = "translate3d(0,0,0)";
+            }
+        }
+    }
+};
+</script>
+
+<style lang="scss" scoped>
+/* 路由切换动画 */
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+    transition: all 0.3s ease;
+}
+.slide-left-enter,
+.slide-left-leave-active,
+.slide-right-enter,
+.slide-left-leave-active {
+    opacity: 0;
+}
+.slide-left-leave-active,
+.slide-right-enter {
+    transform: translate3d(-100%, 0, 0);
+}
+.slide-left-enter,
+.slide-right-leave-active {
+    transform: translate3d(100%, 0, 0);
+}
+.nav-tab {
+    ...
+    font-size: 0;
+    position: relative;
+    border-bottom: 1px solid $vborder;
+    .nav-line {
+        transition: all 0.3s ease;
+        transform: translate3d(0, 0, 0);
+        position: absolute;
+        left: 0;
+        bottom: -1px;
+        width: 33.33333333333%;
+        height: 1px;
+        background-color: rgb(240, 20, 20);
+    }
+    .tab-item {
+        display: inline-block;
+        width: 33.33333333333%;
+        ...
+    }
+}
+
+</style>
+```
+
  
  
  
