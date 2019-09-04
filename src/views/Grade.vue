@@ -91,12 +91,14 @@ import VStar from "components/star/Star.vue";
 import BScroll from "@better-scroll/core";
 import VRating from "components/Rating.vue";
 import { format } from "date-fns";
+import mixins from "mixins/rating.js";
 
-const ALL = 2;
 const POSITIVE = 0;
 const NEGATIVE = 1;
 export default {
     name: "Grade",
+    mixins: [mixins],
+
     props: {
         seller: Object,
         ratings: Array
@@ -111,10 +113,7 @@ export default {
                 all: "全部",
                 positive: "推荐",
                 negative: "不推荐"
-            },
-
-            hideEmpty: false,
-            isActive: ALL
+            }
         };
     },
     methods: {
@@ -130,19 +129,6 @@ export default {
         },
         toggleEmptyComment() {
             this.hideEmpty = !this.hideEmpty;
-            this.refresh();
-        },
-        showItem(item) {
-            if (this.hideEmpty) {
-                if (item.text.length === 0) {
-                    return false;
-                }
-            }
-            if (this.isActive === ALL) {
-                return true;
-            } else {
-                return item.rateType === this.isActive;
-            }
             this.refresh();
         }
     },

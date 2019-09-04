@@ -4,7 +4,8 @@
     "private": true,
     "scripts": {
         "serve": "vue-cli-service serve",
-        "build": "vue-cli-service build --report",
+        "build": "vue-cli-service build",
+        "report": "vue-cli-service build --report",
         "dll": "webpack --color  --config ./webpack.dll.js"
     },
     "dependencies": {

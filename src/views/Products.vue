@@ -87,7 +87,7 @@ import VPics from "components/supports/Pics.vue";
 import { isAndroid } from "js/Android.js";
 
 export default {
-    name:'Product',
+    name: "Product",
     props: {
         goods: Array
     },
@@ -178,6 +178,21 @@ export default {
         },
         ProductDetailClose() {
             this.isProductDetail = false;
+        },
+        initCount() {
+            this.goods.forEach(good => {
+                let count = 0;
+                good.foods.forEach(food => {
+                    if (food.count) {
+                        count = count + food.count;
+                    }
+                });
+                if (!good.calCount) {
+                    this.$set(good, "calCount", count);
+                } else {
+                    good.calCount = count;
+                }
+            });
         }
     },
     computed: {
@@ -209,6 +224,7 @@ export default {
 
         /* 利用computed特性，和VButton组件组成数据驱动的核心 */
         selectFoods() {
+            this.initCount();
             this.$emit("summary", this.selectFoods);
         }
     }

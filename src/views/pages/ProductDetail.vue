@@ -85,12 +85,12 @@ import VButton from "components/Button.vue";
 import VRating from "components/Rating.vue";
 import BScroll from "@better-scroll/core";
 import { format } from "date-fns";
-
-const ALL = 2;
+import mixins from "mixins/rating.js";
 const POSITIVE = 0;
 const NEGATIVE = 1;
 export default {
     name: "ProductDetail",
+    mixins: [mixins],
     props: {
         food: Object,
         isProductDetail: Boolean
@@ -105,9 +105,7 @@ export default {
                 all: "全部",
                 positive: "推荐",
                 negative: "吐槽"
-            },
-            hideEmpty: false,
-            isActive: ALL
+            }
         };
     },
     methods: {
@@ -132,17 +130,6 @@ export default {
         },
         toggleEmptyComment() {
             this.hideEmpty = !this.hideEmpty;
-            this.refresh();
-        },
-        showItem(item) {
-            if (this.hideEmpty && item.text.length == 0) {
-                return false;
-            }
-            if (this.isActive === ALL) {
-                return true;
-            } else {
-                return item.rateType === this.isActive;
-            }
             this.refresh();
         },
         _initScroll() {
@@ -199,14 +186,19 @@ export default {
         border-radius: 50%;
     }
 
-    /* 宽度自适应图片布局 */
+    /* 比例自适应图片布局 */
     .products-detail-img {
+        position: relative;
         width: 100%;
         height: 0;
         overflow: hidden;
         padding-bottom: 100%; //比例自适应布局---正方形
         img {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
         }
     }
     .products-detail-content {

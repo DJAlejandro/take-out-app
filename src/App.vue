@@ -86,6 +86,7 @@ export default {
             let fromDepth = from.path.split("/")[1];
             let toIndex = this.routerDepth.indexOf(toDepth);
             let fromIndex = this.routerDepth.indexOf(fromDepth);
+
             this.transitionName =
                 toIndex < fromIndex ? "slide-right" : "slide-left";
             if (toIndex === 1) {

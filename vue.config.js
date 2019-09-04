@@ -13,15 +13,15 @@ module.exports = {
     devServer: {
         proxy: {
             '/api': {
-                target: 'http://localhost:8080',
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/api': 'mock'
-                }
-                // target: 'http://localhost:80',
+                // target: 'http://localhost:8080',
+                // changeOrigin: true,
                 // pathRewrite: {
-                //     '^/api': '/api'
+                //     '^/api': 'mock'
                 // }
+                target: 'http://localhost:80',
+                pathRewrite: {
+                    '^/api': '/api'
+                }
 
             }
         },
@@ -44,6 +44,7 @@ module.exports = {
             .set('@', resolve('src'))
             .set('css', resolve('src/assets/css'))
             .set('js', resolve('src/assets/js'))
+            .set('mixins', resolve('src/assets/js/mixins'))
             .set('components', resolve('src/components'))
             .set('vue$', 'vue/dist/vue.esm.js')
         // 生产环境
