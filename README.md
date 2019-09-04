@@ -1,3 +1,27 @@
+## 比例自适应图片布局
+
+```
+<div class="products-detail-img">
+    <img :src="food.image" />
+</div>
+```
+```
+.products-detail-img {
+    position: relative;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    padding-bottom: 100%; //比例自适应布局---正方形
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+}
+ ```
+
 ## Vue.set( target, key, value )
 
 为响应式对象添加一个属性，确保新属性也是响应式的，并且能够触发视图更新。
