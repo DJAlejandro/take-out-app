@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["app"],{2240:function(n,o){n.exports=vue}},[[0,"runtime","vendors","common"]]]);

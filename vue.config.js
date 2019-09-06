@@ -9,21 +9,27 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 module.exports = {
     lintOnSave: process.env.NODE_ENV !== 'production',
     productionSourceMap: false,
+    indexPath: path.resolve(__dirname, './docs/index.html'),  //之前是'../dist/index.html'
+    outputDir: path.resolve(__dirname, './docs'),  // 之前是 '../dist'
+    assetsDir: 'static',
+    publicPath: './',    // 之前是 '/'
 
     devServer: {
         proxy: {
-            '/api': {
-                // target: 'http://localhost:8080',
-                // changeOrigin: true,
-                // pathRewrite: {
-                //     '^/api': 'mock'
-                // }
-                target: 'http://localhost:80',
-                pathRewrite: {
-                    '^/api': '/api'
-                }
-
+            // '/api': {
+            // target: 'http://localhost:8080',
+            // changeOrigin: true,
+            // pathRewrite: {
+            //     '^/api': 'mock'
+            // }
+            changeOrigin: true,
+            target: 'http://localhost:80',
+            pathRewrite: {
+                '^/api': '/api'
             }
+
+
+            // }
         },
         quiet: true, //// 不显示 devServer 的 Console 信息，让 FriendlyErrorsWebpackPlugin 取而代之
         open: true,
@@ -60,17 +66,17 @@ module.exports = {
                 .filename("js/[name].[chunkhash:5].js")
                 .chunkFilename("js/[name]-chunk.[chunkhash:5].js")
 
-            config.module
-                .rule('fonts')
-                .use('url-loader')
-                .tap(options => {
-                    options.limit = 8 * 1024
-                    let fallback = options.fallback.options
-                    fallback.outputPath = "assets/"
-                    fallback.name = "fonts/[name]-[hash:5].[ext]"
-                    fallback.publicPath = "../assets/"
-                    return options
-                })
+            // config.module
+            //     .rule('fonts')
+            //     .use('url-loader')
+            //     .tap(options => {
+            //         options.limit = 8 * 1024
+            //         let fallback = options.fallback.options
+            //         fallback.outputPath = "assets/"
+            //         fallback.name = "fonts/[name]-[hash:5].[ext]"
+            //         fallback.publicPath = "../assets/"
+            //         return options
+            //     })
             config
                 .plugin('css-assets')
                 .use(OptimizeCSSAssetsPlugin);
@@ -78,17 +84,17 @@ module.exports = {
             config.output
                 .filename("js/[name].[chunkhash:5].js")
                 .chunkFilename("js/[name]-chunk.[chunkhash:5].js")
-            config.module
-                .rule('images')
-                .use('url-loader')
-                .tap(options => {
-                    options.limit = 8 * 1024
-                    let fallback = options.fallback.options
-                    fallback.outputPath = "assets/"
-                    fallback.name = "imgs/[name]-[hash:5].[ext]"
-                    fallback.publicPath = "../assets/"
-                    return options
-                })
+            // config.module
+            //     .rule('images')
+            //     .use('url-loader')
+            //     .tap(options => {
+            //         options.limit = 8 * 1024
+            //         let fallback = options.fallback.options
+            //         fallback.outputPath = "assets/"
+            //         fallback.name = "imgs/[name]-[hash:5].[ext]"
+            //         fallback.publicPath = "../assets/"
+            //         return options
+            //     })
             config.module
                 .rule('images')
                 .use('image-webpack-loader')
@@ -115,27 +121,27 @@ module.exports = {
                     }
                 )
                 .end()
-            config.module
-                .rule('svg')
-                .use('file-loader')
-                .tap(options => {
-                    options.limit = 8 * 1024
-                    options.outputPath = "assets/"
-                    options.name = "imgs/[name]-[hash:5].[ext]"
-                    options.publicPath = "../assets/"
-                    return options
-                })
-            config.module
-                .rule('fonts')
-                .use('url-loader')
-                .tap(options => {
-                    options.limit = 8 * 1024
-                    let fallback = options.fallback.options
-                    fallback.outputPath = "assets/"
-                    fallback.name = "fonts/[name]-[hash:5].[ext]"
-                    fallback.publicPath = "../assets/"
-                    return options
-                })
+            // config.module
+            //     .rule('svg')
+            //     .use('file-loader')
+            //     .tap(options => {
+            //         options.limit = 8 * 1024
+            //         options.outputPath = "assets/"
+            //         options.name = "imgs/[name]-[hash:5].[ext]"
+            //         options.publicPath = "../assets/"
+            //         return options
+            //     })
+            // config.module
+            //     .rule('fonts')
+            //     .use('url-loader')
+            //     .tap(options => {
+            //         options.limit = 8 * 1024
+            //         let fallback = options.fallback.options
+            //         fallback.outputPath = "assets/"
+            //         fallback.name = "fonts/[name]-[hash:5].[ext]"
+            //         fallback.publicPath = "../assets/"
+            //         return options
+            //     })
             config.optimization.runtimeChunk('single')
             config.optimization.usedExports(true)
             config.optimization.sideEffects(true)
