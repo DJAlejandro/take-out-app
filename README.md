@@ -1,3 +1,48 @@
+## [mixin](https://vue.docschina.org/v2/guide/mixins.html)
+
+
+```
+//rating.js
+const ALL = 2
+
+export default {
+    data() {
+        return {
+            hideEmpty: false,
+            isActive: ALL
+        }
+    },
+    computed: {
+
+    },
+
+    methods: {
+        showItem(item) {
+            if (this.hideEmpty && item.text.length == 0) {
+                return false;
+            }
+            if (this.isActive === ALL) {
+                return true;
+            } else {
+                return item.rateType === this.isActive;
+            }
+        }
+    }
+}
+```
+
+
+```
+//Grade.vue
+<script type="text/javascript">
+import mixins from "mixins/rating.js";
+
+export default {
+    mixins: [mixins],
+    ...
+}
+```
+
 ## 比例自适应图片布局
 
 ```
