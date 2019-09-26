@@ -7,11 +7,18 @@
             <router-link class="tab-item" active-class="active" to="/seller">商家</router-link>
             <div class="nav-line" ref="line"></div>
         </div>
-        <transition :name="transitionName">
-            <keep-alive>
-                <router-view :goods="goods" :ratings="ratings" :seller="seller" @summary="summary"></router-view>
-            </keep-alive>
-        </transition>
+        <div class="container">
+            <transition :name="transitionName">
+                <keep-alive>
+                    <router-view
+                        :goods="goods"
+                        :ratings="ratings"
+                        :seller="seller"
+                        @summary="summary"
+                    ></router-view>
+                </keep-alive>
+            </transition>
+        </div>
 
         <transition name="fade">
             <div class="blur-bg" v-show="isAllShow"></div>
@@ -155,11 +162,10 @@ export default {
 }
 
 .nav-tab {
-    font-size: 0;
-    height: 40px;
-    line-height: 40px;
-    vertical-align: middle;
+    display: flex;
+    flex: 0 0 40px;
     position: relative;
+    align-items: center;
     border-bottom: 1px solid $vborder;
     .nav-line {
         transition: all 0.3s ease;
@@ -172,12 +178,12 @@ export default {
         background-color: rgb(240, 20, 20);
     }
     .tab-item {
-        display: inline-block;
-        width: 33.33333333333%;
+        flex: 1;
         text-align: center;
         text-decoration: none;
         color: rgb(77, 85, 93);
-        font-size: 14px;
+        @include px2px(14);
+
         &.active {
             color: rgb(240, 20, 20);
         }
@@ -193,5 +199,16 @@ export default {
     background-color: rgba(7, 17, 27, 0.6);
     filter: blur(10px);
     z-index: 1;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.container {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
 }
 </style>

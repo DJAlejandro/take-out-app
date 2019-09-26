@@ -29,46 +29,44 @@
         </div>
         <div class="header-bulletin clearfix" @click="showCover">
             <div class="header-bulletin-left"></div>
+            <div class="header-bulletin-main" :class="{android:AndroidPx}">{{seller.bulletin}}</div>
             <div class="header-bulletin-right" :class="{android:AndroidPx}">
                 <i class="iconfont icon-right"></i>
             </div>
-            <div class="header-bulletin-main" :class="{android:AndroidPx}">{{seller.bulletin}}</div>
         </div>
         <div class="header-bgimg">
             <img :src="seller.avatar" />
         </div>
         <transition name="full-screen">
             <div class="full-screen" v-show="isShow">
-                <div class="wrapper clearfix">
-                    <div class="full-screen-content">
-                        <h1>{{seller.name}}</h1>
-                        <div class="star-wrapper">
-                            <v-star size="48" :score="seller.score"></v-star>
-                        </div>
-                        <div class="full-screen-info">
-                            <span class="flex-line"></span>
-                            <span class="flex-main">优惠信息</span>
-                            <span class="flex-line"></span>
-                        </div>
-                        <div class="full-screen-info-detail" v-if="seller.supports">
-                            <ul>
-                                <li v-for="item in seller.supports" class="full-screen-info-item">
-                                    <v-pics
-                                        class="full-screen-info-brand"
-                                        :index="item.type"
-                                        indexArr="2"
-                                    ></v-pics>
-                                    <span class="detail-text">{{item.description}}</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="full-screen-info">
-                            <span class="flex-line"></span>
-                            <span class="flex-main">商家公告</span>
-                            <span class="flex-line"></span>
-                        </div>
-                        <div class="full-screen-bulletin">{{seller.bulletin}}</div>
+                <div class="full-screen-content">
+                    <h1>{{seller.name}}</h1>
+                    <div class="star-wrapper">
+                        <v-star size="48" :score="seller.score"></v-star>
                     </div>
+                    <div class="full-screen-info">
+                        <span class="flex-line"></span>
+                        <span class="flex-main">优惠信息</span>
+                        <span class="flex-line"></span>
+                    </div>
+                    <div class="full-screen-info-detail" v-if="seller.supports">
+                        <ul>
+                            <li v-for="item in seller.supports" class="full-screen-info-item">
+                                <v-pics
+                                    class="full-screen-info-brand"
+                                    :index="item.type"
+                                    indexArr="2"
+                                ></v-pics>
+                                <span class="detail-text">{{item.description}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="full-screen-info">
+                        <span class="flex-line"></span>
+                        <span class="flex-main">商家公告</span>
+                        <span class="flex-line"></span>
+                    </div>
+                    <div class="full-screen-bulletin">{{seller.bulletin}}</div>
                 </div>
                 <div class="footer">
                     <i class="iconfont icon-close" @click="closeCover"></i>
@@ -118,7 +116,6 @@ export default {
 <style lang="scss" scoped>
 @import "~css/mixin.scss";
 @import "~css/base.scss";
-@import "~css/border.scss";
 
 .full-screen-enter-active,
 .full-screen-leave-active {
@@ -134,10 +131,11 @@ export default {
     position: relative;
     overflow: hidden; //防止图片模糊产生的阴影超出容器
     .header-content {
+        display: flex;
         padding: 24px 12px 18px 24px;
         position: relative;
         .header-content-left {
-            float: left;
+            flex: 0 0 64px;
             img {
                 width: 64px;
                 height: 64px;
@@ -145,10 +143,12 @@ export default {
             }
         }
         .header-content-right {
-            margin-left: 80px;
+            flex: 1;
+            margin-left: 16px;
             text-align: left;
             .header-title {
                 margin-top: 2px;
+                font-size: 0;
                 .header-title-brand {
                     display: inline-block;
                     width: 30px;
@@ -160,7 +160,8 @@ export default {
                     margin-right: 6px;
                 }
                 .header-name {
-                    font-size: 16px;
+                    display: inline-block;
+                    @include px2px(16);
                     line-height: 18px;
                     font-weight: bold;
                     color: #fff;
@@ -169,11 +170,12 @@ export default {
             .header-desc {
                 margin-top: 8px;
                 margin-bottom: 10px;
-                font-size: 12px;
+                @include px2px(12);
                 line-height: 12px;
             }
             .header-supports {
                 margin-bottom: 2px;
+                font-size: 0;
                 .header-supports-brand {
                     display: inline-block;
                     margin-right: 4px;
@@ -184,7 +186,8 @@ export default {
                     vertical-align: top;
                 }
                 .header-text {
-                    font-size: 10px;
+                    display: inline-block;
+                    @include px2px(10);
                     line-height: 12px;
                     vertical-align: top;
                 }
@@ -194,7 +197,7 @@ export default {
             position: absolute;
             right: 12px;
             bottom: 18px;
-            font-size: 10px;
+            @include px2px(10);
             line-height: 24px;
             background-color: rgba(0, 0, 0, 0.2);
             padding: 0 8px;
@@ -211,26 +214,29 @@ export default {
 
     /* 经典的三列布局 */
     .header-bulletin {
+        display: flex;
+        align-items: center;
         padding: 0 12px;
         line-height: 28px;
         background-color: rgba(7, 17, 27, 0.2);
         .header-bulletin-left {
-            float: left;
+            // float: left;
             width: 22px;
             height: 12px;
-            margin-top: 10px;
+            // margin-top: 10px;
             margin-right: 4px;
             @include bg-img("../assets/img/bulletin");
             background-size: 22px 12px;
             background-repeat: no-repeat;
         }
         .header-bulletin-main {
-            font-size: 10px;
+            flex: 1;
+            @include px2px(10);
             @include ellipsis;
         }
         .header-bulletin-right {
-            float: right;
-            font-size: 10px;
+            // float: right;
+            @include px2px(10);
             margin-left: 4px;
         }
     }
@@ -253,90 +259,88 @@ export default {
 
 /* sticky footer */
 .full-screen {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
     position: fixed;
-    left: 0;
     top: 0;
-    width: 100%;
-    height: 100%; //step.1
+    bottom: 0;
     background-color: rgba(7, 17, 27, 0.8);
     z-index: 6;
     backdrop-filter: blur(10px); //IOS系统的有背景模糊效果
 
-    .wrapper {
-        height: auto; //step.2
-        min-height: 100%; //step.2
+    .full-screen-content {
         padding-left: 36px;
         padding-right: 36px;
-        .full-screen-content {
-            margin-top: 64px;
-            padding-bottom: 64px; //step.3 必须使用和footer相同的高度
-            h1 {
-                font-size: 16px;
-                line-height: 16px;
+        flex: 1;
+        margin-top: 64px;
+        h1 {
+            @include px2px(16);
+            line-height: 16px;
+            font-weight: 700;
+            color: rgb(255, 255, 255);
+            text-align: center;
+        }
+        .star-wrapper {
+            height: 24px;
+            margin-top: 16px;
+            text-align: center;
+        }
+        .full-screen-info {
+            display: flex;
+            margin-top: 28px;
+            margin-bottom: 24px;
+            .flex-line {
+                flex: 1;
+                top: -6px;
+                // @include border-bottom-1px(rgba(255, 255, 255, 0.2));
+                border-bottom: 1px solid black;
+                border-image: svg(1px-border param(--color #ffffff33)) 1 stretch;
+            }
+            .flex-main {
+                padding-left: 12px;
+                padding-right: 12px;
+                color: rgb(255, 255, 255);
+                @include px2px(14);
                 font-weight: 700;
-                color: rgb(255, 255, 255);
-                text-align: center;
-            }
-            .star-wrapper {
-                height: 24px;
-                margin-top: 16px;
-                text-align: center;
-            }
-            .full-screen-info {
-                display: flex;
-                margin-top: 28px;
-                margin-bottom: 24px;
-                .flex-line {
-                    flex: 1;
-                    top: -6px;
-                    @include border-bottom-1px(rgba(255, 255, 255, 0.2));
-                }
-                .flex-main {
-                    padding-left: 12px;
-                    padding-right: 12px;
-                    color: rgb(255, 255, 255);
-                    font-size: 14px;
-                    font-weight: 700;
-                }
-            }
-            .full-screen-info-detail {
-                padding: 0 12px;
-                font-size: 0;
-                .full-screen-info-item {
-                    margin-bottom: 12px;
-                    &:last-child {
-                        margin-bottom: 0;
-                    }
-                    .full-screen-info-brand {
-                        display: inline-block;
-                        margin-right: 6px;
-                        vertical-align: top;
-                    }
-                    .detail-text {
-                        display: inline-block;
-                        font-size: 12px;
-                        line-height: 16px;
-                        vertical-align: top;
-                    }
-                }
-            }
-            .full-screen-bulletin {
-                padding: 0 12px;
-                font-size: 12px;
-                line-height: 24px;
-                text-align: left;
-                color: rgb(255, 255, 255);
             }
         }
+        .full-screen-info-detail {
+            padding: 0 12px;
+            font-size: 0;
+            .full-screen-info-item {
+                margin-bottom: 12px;
+                &:last-child {
+                    margin-bottom: 0;
+                }
+                .full-screen-info-brand {
+                    display: inline-block;
+                    margin-right: 6px;
+                    vertical-align: top;
+                }
+                .detail-text {
+                    display: inline-block;
+                    @include px2px(12);
+                    line-height: 16px;
+                    vertical-align: top;
+                }
+            }
+        }
+        .full-screen-bulletin {
+            padding: 0 12px;
+            @include px2px(12);
+            line-height: 24px;
+            text-align: left;
+            color: rgb(255, 255, 255);
+        }
     }
+
     .footer {
-        position: relative; //step.4
-        margin-top: -64px; //step.4 footer高度的负值
-        margin-left: auto;
-        margin-right: auto;
+        margin-top: auto;
+        flex-shrink: 0;
+        padding-bottom: 32px;
         width: 32px;
-        height: 32px;
-        clear: both; //step.4
+        height: 64px;
         font-size: 32px;
         color: rgba(255, 255, 255, 0.5);
     }

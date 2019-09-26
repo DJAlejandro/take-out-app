@@ -2,23 +2,18 @@
     <div>
         <div class="shop-cart clearfix">
             <div class="shop-cart-left">
-                <div class="cart-left-content">
-                    <div class="shop-calculate">
-                        <div
-                            class="calculate-content"
-                            @click="toggleShow"
-                            :class="{active:totalCount>0}"
-                        >
-                            <i class="iconfont icon-cart"></i>
-                        </div>
-                        <span class="count-all" v-show="totalCount>0">{{totalCount}}</span>
-                    </div>
-                    <span
-                        class="shop-price-all border-vertical-1px"
+                <div class="shop-calculate">
+                    <div
+                        class="calculate-content"
+                        @click="toggleShow"
                         :class="{active:totalCount>0}"
-                    >￥{{totalPrice}}</span>
-                    <span class="delivery-price">另需配送费￥{{seller.deliveryPrice}}元</span>
+                    >
+                        <i class="iconfont icon-cart"></i>
+                    </div>
+                    <span class="count-all" v-show="totalCount>0">{{totalCount}}</span>
                 </div>
+                <span class="shop-price-all" :class="{active:totalCount>0}">￥{{totalPrice}}</span>
+                <span class="delivery-price">另需配送费￥{{seller.deliveryPrice}}元</span>
             </div>
             <div class="shop-cart-right">
                 <div
@@ -45,12 +40,9 @@
         <transition name="bounce">
             <div class="dialog-confirm" v-if="isConfirmShow">
                 <div class="dialog-confirm-title">清空购物车？</div>
-                <div class="dialog-confirm-btns border-horizontal-1px">
+                <div class="dialog-confirm-btns">
                     <div class="dialog-confirm-btns-item" @click="clearAll(false)">取消</div>
-                    <div
-                        class="dialog-confirm-btns-item ok border-left-1px"
-                        @click="clearAll(true)"
-                    >确定</div>
+                    <div class="dialog-confirm-btns-item ok" @click="clearAll(true)">确定</div>
                 </div>
             </div>
         </transition>
@@ -58,7 +50,7 @@
             <div class="dialog-alert" v-if="isAlertShow">
                 <h2 class="dialog-alert-title">支付</h2>
                 <div class="dialog-alert-content">您需要支付{{totalPrice}}元</div>
-                <div class="dialog-alert-btns border-horizontal-1px" @click="closeAlertDialog">确定</div>
+                <div class="dialog-alert-btns" @click="closeAlertDialog">确定</div>
             </div>
         </transition>
     </div>
@@ -155,7 +147,6 @@ export default {
 <style lang="scss" scoped>
 @import "~css/mixin.scss";
 @import "~css/base.scss";
-@import "~css/border.scss";
 
 /* 购物车详情页动画 */
 .move-enter,
@@ -174,87 +165,89 @@ export default {
     text-align: left;
     font-size: 0;
     position: relative;
+    display: flex;
+    align-items: flex-start;
     .shop-cart-left {
         padding: 12px 0;
-        width: 100%;
-        float: left;
-        .cart-left-content {
-            margin-right: 105px;
-        }
-    }
-
-    .shop-calculate {
-        position: absolute;
-        left: 12px;
-        bottom: 2px;
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        background-color: #141d27;
-        .calculate-content {
-            width: 44px;
-            height: 44px;
-            margin: 6px;
-            background-color: #2b343c;
+        flex: 1;
+        font-size: 0;
+        .shop-calculate {
+            position: absolute;
+            left: 12px;
+            bottom: 2px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
-            text-align: center;
-            .iconfont {
-                line-height: 44px;
-                font-size: 24px;
-                color: #80858a;
-            }
-            &.active {
-                background-color: $vblue;
+            background-color: #141d27;
+            .calculate-content {
+                width: 44px;
+                height: 44px;
+                margin: 6px;
+                background-color: #2b343c;
+                border-radius: 50%;
+                text-align: center;
                 .iconfont {
-                    color: rgb(255, 255, 255);
+                    line-height: 44px;
+                    font-size: 24px;
+                    color: #80858a;
+                }
+                &.active {
+                    background-color: $vblue;
+                    .iconfont {
+                        color: rgb(255, 255, 255);
+                    }
                 }
             }
+            .count-all {
+                display: inline-block;
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 24px;
+                line-height: 16px;
+                @include px2px(9);
+                font-weight: 700;
+                color: rgb(255, 255, 255);
+                border-radius: 16px;
+                background-color: rgb(240, 20, 20);
+                text-align: center;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+            }
         }
-        .count-all {
+        .shop-price-all {
             display: inline-block;
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 24px;
-            line-height: 16px;
-            font-size: 9px;
+            @include px2px(16);
             font-weight: 700;
-            color: rgb(255, 255, 255);
-            border-radius: 16px;
-            background-color: rgb(240, 20, 20);
-            text-align: center;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+            color: rgba(255, 255, 255, 0.4);
+            line-height: 24px;
+            padding-right: 12px;
+            vertical-align: top;
+            // @include border-right-1px(rgba(255, 255, 255, 0.1));
+            border-right: 1px solid black;
+            border-image: svg(1px-border param(--color #ffffff19)) 1 stretch;
+            &.active {
+                color: #fff;
+            }
         }
-    }
-    .shop-price-all {
-        display: inline-block;
-        font-size: 16px;
-        font-weight: 700;
-        color: rgba(255, 255, 255, 0.4);
-        line-height: 24px;
-        padding-right: 12px;
-        @include border-right-1px(rgba(255, 255, 255, 0.1));
-        &.active {
-            color: #fff;
+        .delivery-price {
+            display: inline-block;
+            @include px2px(10);
+            color: rgba(255, 255, 255, 0.4);
+            line-height: 24px;
+            margin-left: 12px;
+            vertical-align: top;
         }
-    }
-    .delivery-price {
-        display: inline-block;
-        font-size: 10px;
-        color: rgba(255, 255, 255, 0.4);
-        line-height: 24px;
-        margin-left: 12px;
     }
 
     .shop-cart-right {
-        float: left;
-        margin-left: -105px;
+        flex: 0 0 105px;
+
         .shop-cart-btn {
             width: 105px;
             line-height: 48px;
             background-color: #2b343c;
             text-align: center;
-            font-size: 12px;
+            @include px2px(12);
             color: rgba(255, 255, 255, 0.4);
             font-weight: 700;
             &.active {
@@ -321,23 +314,27 @@ export default {
     z-index: 5;
     .dialog-confirm-title {
         color: #666;
-        font-size: 14px;
+        @include px2px(14);
         line-height: 22px;
         margin: 16px 0;
     }
     .dialog-confirm-btns {
         font-size: 0;
-        @include border-top-1px($vborder);
+        // @include border-top-1px($vborder);
+        border-top: 1px solid black;
+        border-image: svg(1px-border param(--color $vborder)) 1 stretch;
         .dialog-confirm-btns-item {
             display: inline-block;
             width: 50%;
             color: #999;
-            font-size: 16px;
+            @include px2px(16);
             line-height: 1;
             padding: 17px 10px;
             &.ok {
                 color: #fc9153;
-                @include border-left-1px($vborder);
+                // @include border-left-1px($vborder);
+                border-left: 1px solid black;
+                border-image: svg(1px-border param(--color $vborder)) 1 stretch;
             }
         }
     }
@@ -356,21 +353,23 @@ export default {
     .dialog-alert-title {
         margin: 30px 16px 16px 16px;
         color: #333;
-        font-size: 16px;
+        @include px2px(16);
         line-height: 1;
     }
     .dialog-alert-content {
         color: #666;
-        font-size: 14px;
+        @include px2px(14);
         line-height: 22px;
         margin: 12px 16px 16px 16px;
     }
     .dialog-alert-btns {
-        font-size: 16px;
+        @include px2px(16);
         line-height: 1;
         padding: 17px 0;
         color: #fc9153;
-        @include border-top-1px($vborder);
+        // @include border-top-1px($vborder);
+        border-top: 1px solid black;
+        border-image: svg(1px-border param(--color $vborder)) 1 stretch;
     }
 }
 </style>

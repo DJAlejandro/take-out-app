@@ -1,6 +1,6 @@
 <template>
     <div class="ratings" v-show="ratings">
-        <div class="ratings-header border-horizontal-1px">
+        <div class="ratings-header">
             <div class="ratings-all" @click="changeRatings(ALL)" :class="{active:isActive===ALL}">
                 <span class="text">{{desc.all}}</span>
                 <span class="num" v-if="ratings">{{ratings.length}}</span>
@@ -74,7 +74,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "~css/base.scss";
-@import "~css/border.scss";
 
 .ratings {
     text-align: left;
@@ -82,7 +81,9 @@ export default {
         padding: 18px 0;
         margin: 0 18px;
         font-size: 0;
-        @include border-bottom-1px(rgba(7, 17, 27, 0.1));
+        // @include border-bottom-1px(rgba(7, 17, 27, 0.1));
+        border-bottom: 1px solid black;
+        border-image: svg(1px-border param(--color #07111b19)) 1 stretch;
         &:last-child {
             border-bottom: none;
         }
@@ -94,10 +95,10 @@ export default {
             border-radius: 2px;
             margin-right: 8px;
             .text {
-                font-size: 12px;
+                @include px2px(12);
             }
             .num {
-                font-size: 8px;
+                @include px2px(8);
                 margin-left: 2px;
             }
             .num,
@@ -129,13 +130,13 @@ export default {
     .ratings-filter {
         padding: 12px 18px;
         line-height: 24px;
-        font-size: 12px;
+        @include px2px(12);
         color: $vgray;
         border-bottom: 1px solid $vborder;
         vertical-align: top;
         .icon-right1 {
             display: inline-block;
-            font-size: 24px;
+            @include px2px(24);
             line-height: 24px;
             color: $vgray;
             vertical-align: top;

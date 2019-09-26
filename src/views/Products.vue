@@ -9,7 +9,7 @@
                     @click="changMenu(index)"
                     :key="index"
                 >
-                    <div class="menu-list-text border-horizontal-1px">
+                    <div class="menu-list-text">
                         <v-pics
                             v-if="item.type>0"
                             class="menu-list-brand"
@@ -31,7 +31,7 @@
                     <div class="products-content">
                         <ul>
                             <li
-                                class="products-content-item border-horizontal-1px"
+                                class="products-content-item"
                                 v-for="(food,index) in good.foods"
                                 :key="index"
                             >
@@ -236,7 +236,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "~css/base.scss";
-@import "~css/border.scss";
 
 .slide-fade-enter-active,
 .slide-fade-leave-active {
@@ -249,23 +248,29 @@ export default {
 }
 
 .products {
+    display: flex;
     position: absolute;
     width: 100%;
-    top: 189px;
-    bottom: 48px;
+    top: 0;
+    bottom: 0;
     overflow: hidden;
     .menu-list {
-        width: 80px;
-        float: left;
+        flex: 0 0 80px;
         height: 100%;
+        background-color: $bggray;
 
         /* 多列垂直居中 display: table */
         .menu-list-item {
-            display: table;
+            // @include border-top-1px($vborder);
+            border-top: 1px solid black;
+            border-image: svg(1px-border param(--color $vborder)) 1 stretch;
+
+            // display: table;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             width: 100%;
             height: 54px;
-            padding: 0 12px;
-            background-color: $bggray;
             &.active {
                 background-color: #fff;
                 font-weight: 700;
@@ -273,57 +278,51 @@ export default {
             &:first-child,
             &.active,
             &.active + .menu-list-item {
-                .menu-list-text {
-                    @include border-none;
-                }
+                // @include border-none;
+                border-top: none;
             }
 
             /* 多列居中 display: table-cell  vertical-align: middle*/
             .menu-list-text {
                 position: relative;
-                display: table-cell;
-                width: 56px;
-                line-height: 14px;
-                font-size: 12px;
-                color: rgb(20, 20, 20);
-                vertical-align: middle;
+                // display: table-cell;
+                // vertical-align: middle;
                 text-align: center;
-                @include border-top-1px($vborder);
+                width: 56px;
+                @include px2px(12);
+                color: rgb(20, 20, 20);
                 .menu-list-brand {
                     vertical-align: top;
                 }
             }
             .cal-count {
-                display: table;
                 position: absolute;
-                top: 3px;
+                top: -8px;
                 right: -8px;
                 .cal-count-text {
-                    display: table-cell;
-                    padding: 0 5px;
+                    padding: 0 4px;
                     min-width: 16px;
                     height: 16px;
                     line-height: 16px;
-                    font-size: 10px;
+                    @include px2px(10);
                     font-weight: 700;
                     color: rgb(255, 255, 255);
                     border-radius: 50%;
                     background: linear-gradient(90deg, #fc9153, #f01414);
                     text-align: center;
-                    vertical-align: middle;
                 }
             }
         }
     }
     .products-list {
-        margin-left: 80px;
+        flex: 1;
         height: 100%;
         .products-title {
             border-left: 2px solid #d9dde1;
             background-color: $bggray;
             padding-left: 14px;
             text-align: left;
-            font-size: 12px;
+            @include px2px(12);
             line-height: 26px;
             height: 26px;
             color: $vgray;
@@ -331,27 +330,31 @@ export default {
 
         .products-content {
             .products-content-item {
+                display: flex;
                 padding: 18px 0;
                 margin: 0 18px;
                 & + .products-content-item {
-                    @include border-top-1px($vborder);
+                    // @include border-top-1px($vborder);
+                    border-top: 1px solid black;
+                    border-image: svg(1px-border param(--color $vborder)) 1
+                        stretch;
                 }
             }
             .products-content-img {
-                width: 57px;
+                flex: 0 0 57px;
                 height: 57px;
-                float: left;
+                margin-right: 10px;
                 img {
                     width: 100%;
                     height: 100%;
                 }
             }
             .products-content-box {
-                margin-left: 67px;
+                flex: 1;
                 text-align: left;
                 .products-content-name {
                     margin-top: 2px;
-                    font-size: 14px;
+                    @include px2px(14);
                     line-height: 14px;
                     height: 14px;
                     color: $vblack;
@@ -362,7 +365,7 @@ export default {
                     .products-text,
                     .products-rating {
                         display: inline-block;
-                        font-size: 10px;
+                        @include px2px(10);
                         line-height: 10px;
                         color: $vgray;
                     }
@@ -372,11 +375,10 @@ export default {
                 }
 
                 .products-price-box {
-                    font-size: 0;
-                    width: 100%;
+                    display: flex;
+                    align-items: flex-start;
                     .new-price,
                     .old-price {
-                        display: inline-block;
                         font-size: 0;
                         line-height: 24px;
                     }
@@ -384,27 +386,25 @@ export default {
                     .new-price {
                         & > span {
                             display: inline-block;
-                            font-size: 14px;
+                            @include px2px(14);
                             font-weight: 700;
                             color: rgb(240, 20, 20);
-                            vertical-align: bottom;
                         }
                         & > .yuan {
-                            font-size: 10px;
+                            @include px2px(10);
                             font-weight: normal;
                         }
                     }
 
                     .old-price {
                         margin-left: 8px;
-                        font-size: 10px;
+                        @include px2px(10);
                         font-weight: 700;
                         color: $vgray;
-                        vertical-align: top;
                         text-decoration: line-through;
                     }
                     .price-button {
-                        float: right;
+                        margin-left: auto;
                     }
                 }
             }

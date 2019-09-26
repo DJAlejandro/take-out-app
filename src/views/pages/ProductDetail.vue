@@ -25,7 +25,7 @@
                     </span>
                     <span class="price-button">
                         <v-button v-show="food.count" :food="food"></v-button>
-                        <span class="zero" v-show="!food.count" @click="add">加入购物车</span>
+                        <div class="zero" v-show="!food.count" @click="add">加入购物车</div>
                     </span>
                 </div>
             </div>
@@ -51,17 +51,15 @@
                 <ul v-if="food.ratings">
                     <li
                         v-for="item in food.ratings"
-                        class="ratings-content-item border-horizontal-1px"
+                        class="ratings-content-item"
                         v-if="showItem(item)"
                     >
                         <div class="ratings-title">
-                            <div class="ratings-user">
-                                <div class="username">{{item.username}}</div>
-                                <div class="ratings-img">
-                                    <img :src="item.avatar" />
-                                </div>
-                            </div>
                             <div class="time">{{ item.rateTime | formatDate}}</div>
+                            <div class="username">{{item.username}}</div>
+                            <div class="ratings-img">
+                                <img :src="item.avatar" />
+                            </div>
                         </div>
                         <div class="ratings-text">
                             <i
@@ -163,7 +161,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "../~css/base.scss";
-@import "~css/border.scss";
 
 .products-detail {
     position: fixed;
@@ -189,10 +186,12 @@ export default {
     /* 比例自适应图片布局 */
     .products-detail-img {
         position: relative;
-        width: 100%;
-        height: 0;
+        width: 100vw;
+        height: 100vw;
+        // width: 100%;
+        // height: 0;
         overflow: hidden;
-        padding-bottom: 100%; //比例自适应布局---正方形
+        // padding-bottom: 100%; //比例自适应布局---正方形
         img {
             position: absolute;
             top: 0;
@@ -205,6 +204,7 @@ export default {
         padding: 18px;
         text-align: left;
         .products-detail-name {
+            @include px2px(14);
             line-height: 14px;
             font-weight: 700;
             color: $vblack;
@@ -216,7 +216,7 @@ export default {
             .products-detail-rating {
                 display: inline-block;
                 color: $vgray;
-                font-size: 10px;
+                @include px2px(10);
                 line-height: 10px;
             }
             .products-detail-rating {
@@ -224,52 +224,43 @@ export default {
             }
         }
         .products-detail-price {
-            font-size: 0;
-            width: 100%;
+            display: flex;
             .new-price,
             .old-price {
-                font-size: 0;
-
-                display: inline-block;
                 line-height: 24px;
             }
             .yuan {
-                font-size: 10px;
+                @include px2px(10);
                 font-weight: normal;
-                vertical-align: bottom;
             }
             .new-price {
                 span {
-                    font-size: 14px;
+                    @include px2px(14);
                     font-weight: 700;
                     color: rgb(240, 20, 20);
-                    vertical-align: bottom;
                 }
             }
             .old-price {
                 margin-left: 8px;
-
                 span {
-                    font-size: 10px;
+                    @include px2px(10);
                     font-weight: 700;
                     color: $vgray;
-                    vertical-align: top;
                     text-decoration: line-through;
                 }
             }
             .price-button {
-                float: right;
+                margin-left: auto;
             }
             .zero {
-                display: inline-block;
-                width: 74px;
+                flex: 0 0 74px;
                 height: 24px;
                 text-align: center;
                 border-radius: 12px;
                 background-color: $vblue;
                 padding: 0 12px;
                 line-height: 24px;
-                font-size: 10px;
+                @include px2px(10);
                 color: #fff;
             }
         }
@@ -278,7 +269,7 @@ export default {
         padding: 18px;
         text-align: left;
         h2 {
-            font-size: 14px;
+            @include px2px(14);
             line-height: 14px;
             color: $vblack;
             margin-bottom: 6px;
@@ -286,7 +277,7 @@ export default {
         p {
             margin-left: 8px;
             margin-right: 8px;
-            font-size: 12px;
+            @include px2px(12);
             line-height: 24px;
             color: rgb(77, 85, 93);
         }
@@ -295,7 +286,7 @@ export default {
         padding: 18px 0 0 18px;
         text-align: left;
         h2 {
-            font-size: 14px;
+            @include px2px(14);
             line-height: 14px;
             color: $vblack;
         }
@@ -305,52 +296,52 @@ export default {
         padding: 0 18px;
         .ratings-content-item {
             padding: 16px 0;
-            @include border-bottom-1px($vborder);
+            // @include border-bottom-1px($vborder);
+            border-bottom: 1px solid black;
+            border-image: svg(1px-border param(--color $vborder)) 1 stretch;
             &:last-child {
-                @include border-none;
+                // @include border-none;
+                border: none;
             }
             .ratings-title {
+                display: flex;
                 color: $vgray;
                 margin-bottom: 6px;
+                height: 12px;
+
                 .time {
-                    font-size: 10px;
+                    @include px2px(10);
                     line-height: 12px;
                     color: $vgray;
                 }
-                .ratings-user {
-                    float: right;
-                    font-size: 0;
+
+                .username {
+                    margin-left: auto;
+                    color: $vgray;
+                    line-height: 12px;
+                    @include px2px(10);
+                }
+
+                .ratings-img {
+                    margin-left: 6px;
                     height: 12px;
-
-                    .username {
-                        display: inline-block;
-                        color: $vgray;
-                        line-height: 12px;
-                        font-size: 10px;
-                        vertical-align: top;
-                    }
-
-                    .ratings-img {
-                        display: inline-block;
-                        margin-left: 6px;
-                        height: 12px;
-                        width: 12px;
-                        img {
-                            width: 100%;
-                            height: 100%;
-                            border-radius: 50%;
-                        }
+                    flex: 0 0 12px;
+                    font-size: 0;
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 50%;
                     }
                 }
             }
 
             .ratings-text {
-                font-size: 12px;
+                @include px2px(12);
                 line-height: 16px;
                 color: $vblack;
                 .iconfont {
                     display: inline-block;
-                    font-size: 12px;
+                    @include px2px(12);
                     line-height: 16px;
                     margin-right: 4px;
                 }
@@ -364,7 +355,7 @@ export default {
         }
     }
     .no-rating {
-        font-size: 12px;
+        @include px2px(12);
         color: rgb(147, 153, 159);
     }
 }

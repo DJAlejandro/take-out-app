@@ -7,17 +7,15 @@
         <div class="shop-detail-list" ref="detailList">
             <div>
                 <ul v-if="selectFoods.length">
-                    <li
-                        class="shop-detail-item border-horizontal-1px clearfix"
-                        v-for="(food,index) in selectFoods"
-                    >
+                    <li class="shop-detail-item clearfix" v-for="(food,index) in selectFoods">
                         <div class="name">{{food.name}}</div>
-                        <div class="price-button">
-                            <v-button :food="food"></v-button>
-                        </div>
+
                         <div class="shop-detail-price">
                             <span class="yuan">￥</span>
                             <span class="new">{{food.price*food.count}}</span>
+                        </div>
+                        <div class="price-button">
+                            <v-button :food="food"></v-button>
                         </div>
                     </li>
                 </ul>
@@ -31,7 +29,7 @@ import BScroll from "@better-scroll/core";
 import { isAndroid } from "js/Android.js";
 
 export default {
-    name:'ShopDetail',
+    name: "ShopDetail",
     props: {
         selectFoods: Array,
         isAllShow: Boolean
@@ -74,24 +72,23 @@ export default {
 
 <style lang="scss" scoped>
 @import "~css/base.scss";
-@import "~css/border.scss";
 
 .shop-detail {
     background-color: rgb(255, 255, 255);
     .detail-title {
+        display: flex;
         padding: 0 18px;
         background-color: $bggray;
         border-bottom: 1px solid $vborder;
         line-height: 40px;
         .detail-title-text {
-            float: left;
-            font-size: 14px;
+            @include px2px(14);
             color: $vblack;
             text-align: left;
         }
         .clear-all {
-            float: right;
-            font-size: 12px;
+            margin-left: auto;
+            @include px2px(12);
             color: $vblue;
         }
     }
@@ -103,38 +100,41 @@ export default {
         overflow: hidden;
         padding: 0 18px;
         .shop-detail-item {
+            display: flex;
             height: 48px;
             line-height: 48px;
             & > .name {
-                float: left; //1
                 text-align: left;
                 color: $vblack;
-                font-size: 14px;
+                @include px2px(14);
             }
-            @include border-bottom-1px($vborder);
+            // @include border-bottom-1px($vborder);
+            border-bottom: 1px solid black;
+            border-image: svg(1px-border param(--color $vborder)) 1 stretch;
             &:last-child {
-                @include border-none;
+                // @include border-none;
+                border: none;
             }
             & > .shop-detail-price {
-                overflow: hidden; //2 触发BFC
+                flex: 1;
                 text-align: right;
                 font-size: 0;
                 .yuan {
                     display: inline-block;
-                    font-size: 10px;
+                    @include px2px(10);
                     font-weight: normal;
                     color: rgb(240, 20, 20);
                 }
                 .new {
-                    font-size: 14px;
+                    @include px2px(14);
                     font-weight: 700;
                     color: rgb(240, 20, 20);
                     margin-right: 12px;
                 }
             }
             & > .price-button {
-                float: right; //3
-                width: 84px;
+                flex: 0 0 84px;
+                padding-top: 12px;
             }
         }
     }

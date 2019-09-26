@@ -1,8 +1,8 @@
 <template>
     <div class="evaluate" ref="evaluate">
-        <div>
+        <div class="container">
             <div class="evaluate-header">
-                <div class="evaluate-rank-rate border-vertical-1px">
+                <div class="evaluate-rank-rate">
                     <h2 class="rank-rate-score">{{seller.score}}</h2>
                     <p class="rank-rate-text">综合评分</p>
                     <p class="rank-rate-desc">高于周边商家{{seller.rankRate}}%</p>
@@ -40,17 +40,14 @@
             <div class="evaluate-list">
                 <ul>
                     <template v-for="item in ratings">
-                        <li
-                            class="evaluate-list-item border-horizontal-1px"
-                            v-show="showItem(item)"
-                        >
+                        <li class="evaluate-list-item" v-show="showItem(item)">
                             <div class="evaluate-list-img">
                                 <img :src="item.avatar" />
                             </div>
                             <div class="evaluate-list-content">
                                 <div class="evaluate-list-title">
-                                    <div class="evaluate-rateTime">{{item.rateTime | formatDate}}</div>
                                     <div class="username">{{item.username}}</div>
+                                    <div class="evaluate-rateTime">{{item.rateTime | formatDate}}</div>
                                 </div>
                                 <div class="evaluate-list-desc">
                                     <div class="star-wrapper2" v-if="item.score">
@@ -141,7 +138,8 @@ export default {
         this.$nextTick(function() {
             if (!this.evaluate) {
                 this.evaluate = new BScroll(this.$refs.evaluate, {
-                    click: true
+                    click: true,
+                    probeType: 3
                 });
             } else {
                 this.evaluate.refresh();
@@ -154,176 +152,175 @@ export default {
 <style lang="scss" scoped>
 @import "~css/mixin.scss";
 @import "~css/base.scss";
-@import "~css/border.scss";
 
 .evaluate {
     position: absolute;
     width: 100%;
-    top: 189px;
-    bottom: 48px;
+    top: 0;
+    bottom: 0;
     overflow: hidden;
-    .evaluate-header {
-        padding: 18px 0;
-        .evaluate-rank-rate {
-            float: left;
-            width: 137px;
-            text-align: center;
-            @include border-right-1px($vborder);
-            @media only screen and (max-width: 320px) {
-                width: 115px;
-            }
-            .rank-rate-score {
-                font-size: 24px;
-                line-height: 28px;
-                color: rgb(255, 153, 0);
-            }
-            .rank-rate-text {
-                margin-top: 6px;
-                margin-bottom: 8px;
-                font-size: 12px;
-                line-height: 12px;
-                color: $vblack;
-            }
-            .rank-rate-desc {
-                margin-bottom: 6px;
-                font-size: 10px;
-                line-height: 10px;
-                color: $vgray;
-            }
-        }
-        .evaluate-score {
-            padding: 0 24px;
-            margin-left: 137px;
-            @media only screen and (max-width: 360px) {
-                padding: 0 8px;
-                margin-left: 115px;
-            }
-            .evaluate-score-item {
-                margin-bottom: 8px;
-                text-align: left;
-                font-size: 0;
-                &:last-child {
-                    margin-bottom: 0;
+    .container {
+        .evaluate-header {
+            display: flex;
+            padding: 18px 0;
+            .evaluate-rank-rate {
+                flex: 0 0 137px;
+                text-align: center;
+                // @include border-right-1px($vborder);
+                border-right: 1px solid black;
+                border-image: svg(1px-border param(--color $vborder)) 1 stretch;
+                @media only screen and (max-width: 320px) {
+                    flex: 0 0 115px;
                 }
-                .evaluate-score-title,
-                .star-wrapper,
-                .evaluate-score-content,
-                .evaluate-score-delivery {
-                    display: inline-block;
-                    vertical-align: top;
-                }
-                .evaluate-score-title {
-                    font-size: 12px;
-                    line-height: 18px;
-                    color: $vblack;
-                }
-                .star-wrapper {
-                    height: 18px;
-                    margin: 0 12px;
-                }
-                .evaluate-score-content {
-                    font-size: 12px;
-                    line-height: 18px;
+                .rank-rate-score {
+                    @include px2px(24);
+                    line-height: 28px;
                     color: rgb(255, 153, 0);
                 }
-                .evaluate-score-delivery {
-                    font-size: 12px;
-                    line-height: 18px;
-                    color: $vgray;
-                    margin-left: 12px;
-                }
-            }
-        }
-    }
-    .evaluate-list {
-        .evaluate-list-item {
-            padding: 18px 0;
-            margin: 0 18px;
-            @include border-bottom-1px($vborder);
-            &:last-child {
-                @include border-none;
-            }
-        }
-        .evaluate-list-img {
-            width: 28px;
-            float: left;
-            img {
-                width: 28px;
-                height: 28px;
-                border-radius: 50%;
-            }
-        }
-        .evaluate-list-content {
-            margin-left: 40px;
-            text-align: left;
-            .evaluate-list-title {
-                .username {
-                    font-size: 10px;
+                .rank-rate-text {
+                    margin-top: 6px;
+                    margin-bottom: 8px;
+                    @include px2px(12);
                     line-height: 12px;
                     color: $vblack;
                 }
-
-                .evaluate-rateTime {
-                    float: right;
-                    font-size: 10px;
-                    line-height: 12px;
+                .rank-rate-desc {
+                    margin-bottom: 6px;
+                    @include px2px(10);
+                    line-height: 10px;
                     color: $vgray;
                 }
             }
-            .evaluate-list-desc {
-                margin-top: 4px;
-                font-size: 0;
-                .star-wrapper2 {
-                    display: inline-block;
-                    height: 12px;
-                }
-                .evaluate-deliveryTime {
-                    margin-left: 6px;
-                    display: inline-block;
-                    font-size: 10px;
-                    line-height: 12px;
-                    color: $vgray;
-                }
-            }
-            .evaluate-list-text {
-                margin-top: 6px;
-                font-size: 12px;
-                line-height: 18px;
-                color: $vblack;
-            }
-            .evaluate-list-recommend {
-                margin-top: 8px;
-                font-size: 0;
-                .evaluate-recommend-left {
-                    display: inline-block;
-                    margin: 0 8px 4px 0;
-                    vertical-align: top;
+            .evaluate-score {
+                flex: 1;
+                padding: 0 24px;
 
-                    .iconfont {
+                @media only screen and (max-width: 360px) {
+                    padding: 0 8px;
+                }
+                .evaluate-score-item {
+                    display: flex;
+                    margin-bottom: 8px;
+                    text-align: left;
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                    .evaluate-score-title {
                         font-size: 12px;
-                        line-height: 16px;
+                        line-height: 18px;
+                        color: $vblack;
                     }
-                    .icon-good {
-                        color: $vblue;
+                    .star-wrapper {
+                        height: 18px;
+                        margin: 0 12px;
                     }
-                    .icon-bad {
+                    .evaluate-score-content {
+                        font-size: 12px;
+                        line-height: 18px;
+                        color: rgb(255, 153, 0);
+                    }
+                    .evaluate-score-delivery {
+                        font-size: 12px;
+                        line-height: 18px;
+                        color: $vgray;
+                        margin-left: 12px;
+                    }
+                }
+            }
+        }
+        .evaluate-list {
+            .evaluate-list-item {
+                display: flex;
+                padding: 18px 0;
+                margin: 0 18px;
+                // @include border-bottom-1px($vborder);
+                border-bottom: 1px solid black;
+                border-image: svg(1px-border param(--color $vborder)) 1 stretch;
+                &:last-child {
+                    // @include border-none;
+                    border: none;
+                }
+            }
+            .evaluate-list-img {
+                flex: 0 0 28px;
+                img {
+                    width: 28px;
+                    height: 28px;
+                    border-radius: 50%;
+                }
+            }
+            .evaluate-list-content {
+                flex: 1;
+                margin-left: 12px;
+                text-align: left;
+                .evaluate-list-title {
+                    display: flex;
+                    .username {
+                        @include px2px(10);
+                        line-height: 12px;
+                        color: $vblack;
+                    }
+
+                    .evaluate-rateTime {
+                        margin-left: auto;
+                        @include px2px(10);
+                        line-height: 12px;
                         color: $vgray;
                     }
                 }
-                .evaluate-recommend-right {
-                    display: inline-block;
-                    margin-right: 8px;
-                    margin-bottom: 8px;
-                    padding: 0 6px;
-                    max-width: 62px;
-                    line-height: 16px;
-                    font-size: 9px;
-                    color: $vgray;
-                    border: 1px solid $vborder;
-                    border-radius: 1px;
-                    @include ellipsis;
-                    &:last-child {
-                        margin-right: 0;
+                .evaluate-list-desc {
+                    margin-top: 4px;
+                    font-size: 0;
+                    .star-wrapper2 {
+                        display: inline-block;
+                        height: 12px;
+                    }
+                    .evaluate-deliveryTime {
+                        margin-left: 6px;
+                        display: inline-block;
+                        @include px2px(10);
+                        line-height: 12px;
+                        color: $vgray;
+                    }
+                }
+                .evaluate-list-text {
+                    margin-top: 6px;
+                    @include px2px(12);
+                    line-height: 18px;
+                    color: $vblack;
+                }
+                .evaluate-list-recommend {
+                    margin-top: 8px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    font-size: 0;
+                    .evaluate-recommend-left {
+                        margin: 0 8px 4px 0;
+                        .iconfont {
+                            @include px2px(12);
+                            line-height: 16px;
+                        }
+                        .icon-good {
+                            color: $vblue;
+                        }
+                        .icon-bad {
+                            color: $vgray;
+                        }
+                    }
+                    .evaluate-recommend-right {
+                        margin-right: 8px;
+                        margin-bottom: 4px;
+                        padding: 0 6px;
+                        max-width: 62px;
+                        line-height: 16px;
+                        @include px2px(9);
+                        color: $vgray;
+                        border: 1px solid $vborder;
+                        border-radius: 1px;
+                        @include ellipsis;
+                        &:last-child {
+                            margin-right: 0;
+                        }
                     }
                 }
             }

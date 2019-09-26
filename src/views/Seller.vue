@@ -2,7 +2,7 @@
     <div class="seller" ref="sellerScroll">
         <div>
             <div class="seller-header">
-                <div class="seller-header-content border-horizontal-1px">
+                <div class="seller-header-content">
                     <div class="seller-name">{{seller.name}}</div>
                     <div class="seller-count">
                         <div class="star-wrapper">
@@ -19,14 +19,14 @@
                     </div>
                 </div>
                 <div class="seller-header-info">
-                    <div class="header-info-item border-vertical-1px">
+                    <div class="header-info-item">
                         <h4 class="seller-header-title">起送价</h4>
                         <h2 class="seller-header-desc">
                             {{seller.minPrice}}
                             <span class="seller-unit">元</span>
                         </h2>
                     </div>
-                    <div class="header-info-item border-vertical-1px">
+                    <div class="header-info-item">
                         <h4 class="seller-header-title">商家配送</h4>
                         <h2 class="seller-header-desc">
                             {{seller.deliveryPrice}}
@@ -50,7 +50,7 @@
             <div class="seller-list">
                 <ul>
                     <li
-                        class="seller-list-item border-horizontal-1px"
+                        class="seller-list-item"
                         v-for="item in seller.supports"
                     >
                         <v-pics class="seller-list-brand" :index="item.type" indexArr="4"></v-pics>
@@ -74,7 +74,7 @@
                 <h2 class="seller-infos-title">商家信息</h2>
                 <div
                     v-for="item in seller.infos"
-                    class="seller-infos-item border-horizontal-1px"
+                    class="seller-infos-item"
                 >{{item}}</div>
             </div>
         </div>
@@ -160,36 +160,38 @@ export default {
 <style lang="scss" scoped>
 @import "~css/mixin.scss";
 @import "~css/base.scss";
-@import "~css/border.scss";
 
 .seller {
     position: absolute;
     width: 100%;
-    top: 189px;
-    bottom: 48px;
+    top: 0;
+    bottom: 0;
     overflow: hidden;
     .seller-header {
         padding: 18px;
+        font-size: 0;
+
         .seller-header-content {
             position: relative;
-            @include border-bottom-1px($vborder) text-align: left;
+            // @include border-bottom-1px($vborder);
+            border-bottom: 1px solid black;
+            border-image: svg(1px-border param(--color $vborder)) 1 stretch;
+            text-align: left;
             .seller-name {
-                font-size: 14px;
+                @include px2px(14);
                 line-height: 14px;
                 color: $vblack;
             }
             .seller-count {
-                font-size: 0;
+                display: flex;
                 margin-top: 8px;
                 padding-bottom: 18px;
                 .star-wrapper,
                 .rating-count,
                 .sell-count {
-                    display: inline-block;
-                    font-size: 10px;
+                    @include px2px(10);
                     line-height: 18px;
                     color: rgb(77, 85, 93);
-                    vertical-align: top;
                 }
                 .rating-count {
                     margin-left: 8px;
@@ -216,7 +218,7 @@ export default {
                 .like-desc {
                     width: 40px;
                     text-align: center;
-                    font-size: 10px;
+                    @include px2px(10);
                     line-height: 10px;
                     color: rgb(77, 85, 93);
                 }
@@ -224,31 +226,34 @@ export default {
         }
         .seller-header-info {
             margin-top: 18px;
-            font-size: 0;
+            display: flex;
             .header-info-item {
                 display: inline-block;
-                width: 33.33333333%;
-                @include border-right-1px($vborder);
+                flex: 1;
+                // @include border-right-1px($vborder);
+                border-right: 1px solid black;
+                border-image: svg(1px-border param(--color $vborder)) 1 stretch;
                 &:last-child {
-                    @include border-none;
+                    // @include border-none;
+                    border: none;
                 }
                 text-align: center;
                 &:last-child {
                     border: none;
                 }
                 .seller-header-title {
-                    font-size: 10px;
+                    @include px2px(10);
                     line-height: 10px;
                     color: $vgray;
                     margin-bottom: 4px;
                 }
                 .seller-header-desc {
-                    font-size: 24px;
+                    @include px2px(24);
                     line-height: 24px;
                     color: $vblack;
                     .seller-unit {
                         color: $vblack;
-                        font-size: 10px;
+                        @include px2px(10);
                     }
                 }
             }
@@ -259,13 +264,13 @@ export default {
         padding: 18px 18px 16px 18px;
         text-align: left;
         .seller-bulletin-title {
-            font-size: 14px;
+            @include px2px(14);
             line-height: 14px;
             color: $vblack;
         }
         .seller-bulletin-content {
             margin: 8px 12px 0 12px;
-            font-size: 12px;
+            @include px2px(12);
             line-height: 24px;
             color: rgb(240, 20, 20);
         }
@@ -275,8 +280,10 @@ export default {
             color: $vblack;
             padding: 16px 12px;
             margin: 0 18px;
-            @include border-top-1px($vborder);
-            font-size: 12px;
+            // @include border-top-1px($vborder);
+            border-top: 1px solid black;
+            border-image: svg(1px-border param(--color $vborder)) 1 stretch;
+            @include px2px(12);
             line-height: 16px;
             text-align: left;
             .seller-list-brand {
@@ -289,7 +296,7 @@ export default {
         padding: 18px;
         padding-right: 0;
         .seller-pics-title {
-            font-size: 14px;
+            @include px2px(14);
             line-height: 14px;
             color: $vblack;
             margin-bottom: 12px;
@@ -320,15 +327,17 @@ export default {
         text-align: left;
         .seller-infos-title {
             margin-bottom: 12px;
-            font-size: 14px;
+            @include px2px(14);
             line-height: 14px;
             color: $vblack;
         }
         .seller-infos-item {
-            @include border-top-1px($vborder);
+            // @include border-top-1px($vborder);
+            border-top: 1px solid black;
+            border-image: svg(1px-border param(--color $vborder)) 1 stretch;
             padding: 16px 12px;
             line-height: 16px;
-            font-size: 12px;
+            @include px2px(12);
             color: $vblack;
         }
     }

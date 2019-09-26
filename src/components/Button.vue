@@ -1,5 +1,5 @@
 <template>
-    <div class="price-btn-group">
+    <span class="price-btn-group">
         <transition name="slide-fade">
             <span class="price-btn" v-show="food.count>0">
                 <i class="iconfont icon-minus" @click.stop="minus"></i>
@@ -11,7 +11,7 @@
         <span class="price-btn">
             <i class="iconfont icon-add" @click.stop="plus"></i>
         </span>
-    </div>
+    </span>
 </template>
 
 <script>
@@ -58,24 +58,19 @@ export default {
     }
 }
 .price-btn-group {
-    font-size: 0;
+    display: flex;
     .price-btn,
     .price-btn-text {
-        display: inline-block;
+        width: 24px;
         line-height: 24px;
         height: 24px;
         text-align: center;
-        vertical-align: middle;
     }
     .price-btn-text {
-        width: 24px;
-        font-size: 10px;
-        line-height: 24px;
-
+        @include px2px(10);
         color: $vgray;
     }
     .price-btn {
-        width: 24px;
         font-size: 24px;
     }
     .iconfont {

@@ -16,20 +16,20 @@ module.exports = {
 
     devServer: {
         proxy: {
-            // '/api': {
-            // target: 'http://localhost:8080',
-            // changeOrigin: true,
-            // pathRewrite: {
-            //     '^/api': 'mock'
-            // }
-            changeOrigin: true,
-            target: 'http://localhost:80',
-            pathRewrite: {
-                '^/api': '/api'
+            '/api': {
+                target: 'http://localhost:8080',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api': 'mock'
+                }
+                // changeOrigin: true,
+                // target: 'http://localhost:80',
+                // pathRewrite: {
+                //     '^/api': '/api'
+                // }
+
+
             }
-
-
-            // }
         },
         quiet: true, //// 不显示 devServer 的 Console 信息，让 FriendlyErrorsWebpackPlugin 取而代之
         open: true,

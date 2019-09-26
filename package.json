@@ -30,6 +30,8 @@
         "node-sass": "^4.9.0",
         "optimize-css-assets-webpack-plugin": "^5.0.3",
         "postcss-preset-env": "^6.7.0",
+        "postcss-pxtorem": "^4.0.1",
+        "postcss-write-svg": "github:jonathantneal/postcss-write-svg",
         "purgecss-webpack-plugin": "^1.5.0",
         "sass-loader": "^7.1.0",
         "url-loader": "^2.1.0",
