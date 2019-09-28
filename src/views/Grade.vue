@@ -127,6 +127,18 @@ export default {
         toggleEmptyComment() {
             this.hideEmpty = !this.hideEmpty;
             this.refresh();
+        },
+        _initScroll() {
+            this.$nextTick(function() {
+                if (!this.evaluate) {
+                    this.evaluate = new BScroll(this.$refs.evaluate, {
+                        click: true,
+                        probeType: 3
+                    });
+                } else {
+                    this.evaluate.refresh();
+                }
+            });
         }
     },
     filters: {
@@ -135,16 +147,10 @@ export default {
         }
     },
     mounted() {
-        this.$nextTick(function() {
-            if (!this.evaluate) {
-                this.evaluate = new BScroll(this.$refs.evaluate, {
-                    click: true,
-                    probeType: 3
-                });
-            } else {
-                this.evaluate.refresh();
-            }
-        });
+        this._initScroll();
+    },
+    activated() {
+        this._initScroll();
     }
 };
 </script>

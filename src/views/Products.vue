@@ -227,6 +227,12 @@ export default {
             this.initCount();
             this.$emit("summary", this.selectFoods);
         }
+    },
+    mounted() {
+        this.initScroll();
+    },
+    activated() {
+        this.initScroll();
     }
 };
 </script>
@@ -262,9 +268,8 @@ export default {
         /* 多列垂直居中 display: table */
         .menu-list-item {
             // @include border-top-1px($vborder);
-            border-top: 1px solid black;
+            border-top: 1px solid;
             border-image: svg(1px-border param(--color $vborder)) 1 stretch;
-
             // display: table;
             display: flex;
             align-items: center;

@@ -4,7 +4,6 @@ import router from './router'
 import store from './store'
 import fastClick from 'fastclick'
 
-
 fastClick.attach(document.body)
 
 Vue.config.productionTip = false

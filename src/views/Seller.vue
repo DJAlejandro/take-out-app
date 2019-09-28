@@ -49,10 +49,7 @@
             </div>
             <div class="seller-list">
                 <ul>
-                    <li
-                        class="seller-list-item"
-                        v-for="item in seller.supports"
-                    >
+                    <li class="seller-list-item" v-for="item in seller.supports">
                         <v-pics class="seller-list-brand" :index="item.type" indexArr="4"></v-pics>
                         {{item.description}}
                     </li>
@@ -72,10 +69,7 @@
             <div class="section-block"></div>
             <div class="seller-infos">
                 <h2 class="seller-infos-title">商家信息</h2>
-                <div
-                    v-for="item in seller.infos"
-                    class="seller-infos-item"
-                >{{item}}</div>
+                <div v-for="item in seller.infos" class="seller-infos-item">{{item}}</div>
             </div>
         </div>
     </div>
@@ -152,6 +146,11 @@ export default {
             this.isActive === true ? (desc = "已收藏") : (desc = "收藏");
             return desc;
         }
+    },
+
+    activated() {
+        this._initScroll();
+        this._initPics();
     }
 };
 </script>
