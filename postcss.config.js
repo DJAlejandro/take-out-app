@@ -5,7 +5,7 @@ module.exports = {
     plugins: [
         require('postcss-pxtorem')({
             rootValue: 37.5, // 换算的基数
-            propList: ['*', '!font-size', '!font', '!border-image', '!border', '!border-top', '!border-left', '!border-right', '!border-bottom']
+            propList: ['*', '!font-size', '!border-image', '!border', '!border-top', '!border-left', '!border-right', '!border-bottom']
         }),
         require("postcss-write-svg")({
             utf8: false

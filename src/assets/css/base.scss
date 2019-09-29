@@ -1,6 +1,25 @@
 @import './reset.scss';
 @import './clearfix.scss';
 
+//rem缩放比例的1rem基础值设置
+
+html {
+    font-size: 40px; //对于不支持vw浏览器的兼容
+    font-size: 10vw; //手机端、pad竖屏下的1rem
+}
+
+@media screen and (min-width: 540px) and (orientation:landscape) {
+    html {
+        font-size: 50px; //手机端横屏下1rem
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    html {
+        font-size: 80px; //pad端横屏场景下1rem
+    }
+}
+
 @svg 1px-border {
     width: 4PX;
     height: 4PX;
@@ -14,25 +33,22 @@
     }
 }
 
+//对于不同尺寸的屏幕分辨率下文本字体的放大比例
+
 @mixin px2px($px) {
-    font-size: round($px / 2) * 1px;
+    font-size: $px * 1px; //手机端竖屏
 
-    [data-dpr="2"] & {
-        font-size: $px * 1px;
+    @media screen and (min-width: 540px) {
+        font-size: $px * 1.2px; //手机端横屏及pad竖屏场景
     }
 
-    [data-dpr="2.75"] & {
-        font-size: $px * 1px;
-    }
-
-    [data-dpr="3"] & {
-        font-size: $px * 1.3px;
-    }
-
-    [data-dpr="4"] & {
-        font-size: $px * 1.5px;
+    @media screen and (min-width: 1000px) {
+        font-size: $px * 1.5px; //pad/PC端横屏场景
     }
 }
+
+
+
 
 $vblue:rgb(0, 160, 220);
 $bggray:#f3f5f7;

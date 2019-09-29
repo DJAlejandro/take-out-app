@@ -158,9 +158,17 @@ export default {
     position: fixed;
     bottom: 0;
     left: 0;
+    right: 0;
+
     z-index: 3;
 }
-
+// @media (min-width: 820px) {
+//     .shop-cart-wrapper {
+//         width: 820PX;
+//         margin-left: auto;
+//         margin-right: auto;
+//     }
+// }
 .nav-tab {
     display: flex;
     flex: 0 0 40px;

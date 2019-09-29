@@ -127,6 +127,7 @@ export default {
 }
 
 .header {
+    
     background-color: rgba(7, 17, 27, 0.5);
     position: relative;
     overflow: hidden; //防止图片模糊产生的阴影超出容器
@@ -256,7 +257,11 @@ export default {
         }
     }
 }
-
+    @media screen and (min-width: 540px)  and (orientation:landscape) {
+        .header{
+            display: none;
+        }
+    }
 /* sticky footer */
 .full-screen {
     display: flex;
@@ -345,4 +350,13 @@ export default {
         color: rgba(255, 255, 255, 0.5);
     }
 }
+
+
+// @media (min-width: 820px) {
+//     .full-screen {
+//         width: 820PX;
+//         margin-left: auto;
+//         margin-right: auto;
+//     }
+// }
 </style>
